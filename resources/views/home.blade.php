@@ -38,7 +38,7 @@
             <h1 class="text-7xl font-extrabold text-red-600 text-center">
                 HOT PLATE<br>JAGO
             </h1>
-            <a href="/dashboard" class="bg-yellow-400 text-3xl text-red-600 font-bold py-2 px-8 rounded mt-4 hover:bg-yellow-500 transition">
+            <a href="login" class="bg-yellow-400 text-3xl text-red-600 font-bold py-2 px-8 rounded mt-4 hover:bg-yellow-500 transition">
                 LOGIN
             </a>
             </div>
