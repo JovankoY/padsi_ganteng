@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            background: linear-gradient(135deg, #f1c40f, #e74c3c);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,7 +26,7 @@
         }
 
         h1 {
-            color: #6c5ce7;
+            color: #e74c3c;
             margin-bottom: 20px;
         }
 
@@ -69,7 +69,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background-color: #6c5ce7;
+            background-color: #fbbf24;
             border: none;
             border-radius: 5px;
             color: white;
@@ -79,7 +79,7 @@
         }
 
         button:hover {
-            background-color: #5a4cc7;
+            background-color: #f59e0b;
             transform: translateY(-2px);
         }
 

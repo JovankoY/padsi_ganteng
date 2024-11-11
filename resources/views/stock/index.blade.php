@@ -1,6 +1,7 @@
-<!-- resources/views/bahan/index.blade.php -->
+<!-- resources/views/stock/index.blade.php -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,13 +14,12 @@
     <!-- Sidebar -->
     <x-sidebar></x-sidebar>
 
-    <!-- Content Area -->
     <main class="flex-1 p-8">
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-2xl font-semibold text-gray-800">Bahan</h1>
+            <a href="{{ route('stock.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Tambah Stock Baru</a>
         </div>
 
-        <!-- Bahan Table -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="table-auto w-full">
                 <thead class="bg-gray-100 text-gray-600">
@@ -29,18 +29,27 @@
                         <th class="px-6 py-3 text-left">Nama Barang</th>
                         <th class="px-6 py-3 text-left">Jenis Barang</th>
                         <th class="px-6 py-3 text-left">Jumlah Barang</th>
+                        <th class="px-6 py-3 text-left">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($bahans as $bahan)
-                    <tr class="border-b">
-                        <td class="px-6 py-4">{{ $bahan->id_stok }}</td>
-                        <td class="px-6 py-4">{{ $bahan->id_user }}</td>
-                        <td class="px-6 py-4">{{ $bahan->nama_barang }}</td>
-                        <td class="px-6 py-4">{{ $bahan->jenis_barang }}</td>
-                        <td class="px-6 py-4">{{ $bahan->jumlah_barang }}</td>
-                    </tr>
-                    @endforeach
+                @foreach($bahan as $item)
+<tr class="border-b">
+    <td class="px-6 py-4">{{ $item->id_stok }}</td>
+    <td class="px-6 py-4">{{ $item->id_user }}</td>
+    <td class="px-6 py-4">{{ $item->nama_barang }}</td>
+    <td class="px-6 py-4">{{ $item->jenis_barang }}</td>
+    <td class="px-6 py-4">{{ $item->jumlah_barang }}</td>
+    <td class="px-6 py-4 flex space-x-2">
+    <a href="{{ route('stock.edit', $item->id_stok) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+    <form action="{{ route('stock.destroy', $item->id_stok) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus bahan ini?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
+</form>
+    </td>
+</tr>
+@endforeach
                 </tbody>
             </table>
         </div>

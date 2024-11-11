@@ -15,10 +15,9 @@ class LoginController extends Controller
         return view('auth.login'); // Ensure 'auth.login' points to the correct view
     }
 
-    // Handle login form submission
     public function submitLogin(Request $request)
     {
-        // Validasi input nama dan role
+        // Validasi input nama dan role sebagai password
         $request->validate([
             'nama' => 'required|string',
             'role' => 'required|string',
@@ -26,25 +25,20 @@ class LoginController extends Controller
     
         // Cari user berdasarkan nama dan role
         $user = User::where('nama', $request->nama)
-            ->where('role', $request->role)
-            ->first();
-
-        // Memeriksa apakah user ditemukan
-        if ($user) {
-            // Autentikasi user
-            Auth::login($user);
+                    ->where('role', $request->role)
+                    ->first();
     
-            // Redirect ke halaman yang diinginkan setelah login berhasil
+        if ($user) {
+            Auth::login($user);
             return redirect()->route('dashboard');
         }
     
-        // Jika login gagal
         return back()->withErrors([
             'nama' => 'Nama atau role salah.',
         ])->withInput();
     }
     
-
+    
     // Handle logout
     public function logout()
     {

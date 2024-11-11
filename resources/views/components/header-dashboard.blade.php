@@ -6,7 +6,7 @@
             <div class="flex items-center space-x-3 px-4 py-2 bg-red-300 rounded-lg shadow">
                 <img src="{{ asset('images/rusdi.png') }}" alt="Profile Picture" class="w-10 h-10 rounded-full">
                 <div class="text-left">
-                    <p class="text-md font-semibold text-white">{{Auth::user()->nama}}</p>
+                    <p class="text-md font-semibold text-white">{{ Auth::user()->nama }}</p>
                     <p class="text-sm text-white">{{ Auth::user()->role }}</p>
                 </div>
             </div>
