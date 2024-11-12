@@ -8,10 +8,19 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $menu = Menu::all();
-        return view('menu.index', compact('menu'));
+        // Cek apakah ada input pencarian
+        $search = $request->input('search');
+        
+        // Jika ada pencarian, filter data berdasarkan nama_menu
+        if ($search) {
+            $menu = Menu::where('nama_menu', 'like', '%' . $search . '%')->get();
+        } else {
+            $menu = Menu::all();
+        }
+
+        return view('menu.index', compact('menu', 'search'));
     }
 
     public function create()
@@ -67,16 +76,12 @@ class MenuController extends Controller
 
         return redirect()->route('menu.index')->with('success', 'Menu berhasil diperbarui!');
     }
-        // Metode lain seperti index, create, store, dll.
-        public function destroy($id)
-        {
-            // Cari menu berdasarkan ID
-            $menu = Menu::findOrFail($id);
-            
-            // Hapus menu
-            $menu->delete();
-    
-            // Redirect setelah berhasil dihapus
-            return redirect()->route('menu.index')->with('success', 'Menu berhasil dihapus!');
-        }
+
+    public function destroy($id)
+    {
+        $menu = Menu::findOrFail($id);
+        $menu->delete();
+
+        return redirect()->route('menu.index')->with('success', 'Menu berhasil dihapus!');
     }
+}

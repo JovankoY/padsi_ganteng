@@ -1,3 +1,4 @@
+<!-- resources/views/users/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,25 @@
             <h1 class="text-2xl font-semibold text-gray-800">Users</h1>
             <a href="{{ route('user.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Create New User</a>
         </div>
+
+        <!-- Search bar -->
+        <form action="{{ route('user.index') }}" method="GET" class="mb-4">
+            <div class="flex">
+                <input 
+                    type="text" 
+                    name="search" 
+                    value="{{ request('search') }}" 
+                    placeholder="Cari user..." 
+                    class="w-full px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                <button 
+                    type="submit" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-r-lg"
+                >
+                    Cari
+                </button>
+            </div>
+        </form>
 
         <!-- Menampilkan pesan sukses jika ada -->
         @if(session('success'))
@@ -44,7 +64,6 @@
                         <td class="px-6 py-4">{{ $user->no_handphone }}</td>
                         <td class="px-6 py-4">{{ ucfirst($user->role) }}</td>
                         <td class="px-6 py-4">
-                          
                             <a href="{{ route('user.edit', $user->id_user) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg">Edit</a>
                             <form action="{{ route('user.destroy', $user->id_user) }}" method="POST" class="inline">
                                 @csrf

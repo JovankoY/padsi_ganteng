@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // Menampilkan semua user
-    public function index()
+    // Menampilkan semua user atau hasil pencarian
+    public function index(Request $request)
     {
-        $users = User::all(); // Mengambil semua data user
-        return view('users.index', compact('users')); // Mengirim data ke view
+        $search = $request->input('search');
+        $users = User::when($search, function($query, $search) {
+                return $query->where('nama', 'like', "%{$search}%");
+            })
+            ->get();
+        return view('users.index', compact('users', 'search'));
     }
 
     // Menampilkan form untuk membuat user baru

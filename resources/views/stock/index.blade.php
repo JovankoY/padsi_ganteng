@@ -1,5 +1,3 @@
-<!-- resources/views/stock/index.blade.php -->
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -20,6 +18,11 @@
             <a href="{{ route('stock.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Tambah Stock Baru</a>
         </div>
 
+        <!-- Search Bar -->
+        <form action="{{ route('stock.index') }}" method="GET" class="mb-4">
+            <input type="text" name="search" placeholder="Cari Bahan..." class="px-4 py-2 w-full border rounded-lg focus:outline-none focus:border-blue-500">
+        </form>
+
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="table-auto w-full">
                 <thead class="bg-gray-100 text-gray-600">
@@ -33,23 +36,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($bahan as $item)
-<tr class="border-b">
-    <td class="px-6 py-4">{{ $item->id_stok }}</td>
-    <td class="px-6 py-4">{{ $item->id_user }}</td>
-    <td class="px-6 py-4">{{ $item->nama_barang }}</td>
-    <td class="px-6 py-4">{{ $item->jenis_barang }}</td>
-    <td class="px-6 py-4">{{ $item->jumlah_barang }}</td>
-    <td class="px-6 py-4 flex space-x-2">
-    <a href="{{ route('stock.edit', $item->id_stok) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
-    <form action="{{ route('stock.destroy', $item->id_stok) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus bahan ini?');">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
-</form>
-    </td>
-</tr>
-@endforeach
+                    @foreach($bahan as $item)
+                        <tr class="border-b">
+                            <td class="px-6 py-4">{{ $item->id_stok }}</td>
+                            <td class="px-6 py-4">{{ $item->id_user }}</td>
+                            <td class="px-6 py-4">{{ $item->nama_barang }}</td>
+                            <td class="px-6 py-4">{{ $item->jenis_barang }}</td>
+                            <td class="px-6 py-4">{{ $item->jumlah_barang }}</td>
+                            <td class="px-6 py-4 flex space-x-2">
+                                <a href="{{ route('stock.edit', $item->id_stok) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <form action="{{ route('stock.destroy', $item->id_stok) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus bahan ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
