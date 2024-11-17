@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 
 class BahanController extends Controller
 {
-    // Method untuk menampilkan daftar bahan
+    // Method untuk menampilkan daftar bahan dengan pagination
     public function index(Request $request)
     {
-        $query = Bahan::query();
+        $search = $request->input('search');
 
-        // Cek apakah ada input pencarian
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->input('search');
-            $query->where('nama_barang', 'like', '%' . $search . '%')
-                  ->orWhere('jenis_barang', 'like', '%' . $search . '%');
-        }
+        // Menggunakan query dengan pencarian dan pagination
+        $bahan = Bahan::when($search, function ($query, $search) {
+                $query->where('nama_barang', 'like', '%' . $search . '%')
+                      ->orWhere('jenis_barang', 'like', '%' . $search . '%');
+            })
+            ->paginate(10) // Menampilkan 10 data per halaman
+            ->appends(['search' => $search]); // Menjaga parameter pencarian
 
-        $bahan = $query->get();
-        return view('stock.index', compact('bahan'));
+        return view('stock.index', compact('bahan', 'search'));
     }
 
     // Method untuk menampilkan form untuk membuat bahan baru

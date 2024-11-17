@@ -11,10 +11,14 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $users = User::when($search, function($query, $search) {
+        
+        // Menggunakan paginate untuk pagination
+        $users = User::when($search, function ($query, $search) {
                 return $query->where('nama', 'like', "%{$search}%");
             })
-            ->get();
+            ->paginate(10) // Menampilkan 10 data per halaman
+            ->appends(['search' => $search]); // Menjaga parameter search saat pagination
+        
         return view('users.index', compact('users', 'search'));
     }
 

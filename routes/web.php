@@ -93,10 +93,12 @@ Route::get('stock/{id}/edit', [BahanController::class, 'edit'])->name('stock.edi
 
 // Rute untuk memperbarui stok (method PUT)
 Route::put('stock/{id}', [BahanController::class, 'update'])->name('stock.update');
-
-// Rute untuk menghapus stok (method DELETE)
-
 Route::delete('/stock/{id_stok}', [BahanController::class, 'destroy'])->name('stock.destroy');
+
+
+Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
+Route::get('/loyality/create', [PelangganController::class, 'create'])->name('loyality.create');
+Route::post('/loyality', [PelangganController::class, 'store'])->name('loyality.store');
 
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');

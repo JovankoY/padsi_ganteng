@@ -12,13 +12,11 @@ class MenuController extends Controller
     {
         // Cek apakah ada input pencarian
         $search = $request->input('search');
-        
+
         // Jika ada pencarian, filter data berdasarkan nama_menu
-        if ($search) {
-            $menu = Menu::where('nama_menu', 'like', '%' . $search . '%')->get();
-        } else {
-            $menu = Menu::all();
-        }
+        $menu = Menu::when($search, function ($query, $search) {
+            return $query->where('nama_menu', 'like', '%' . $search . '%');
+        })->paginate(10); // Batasi 10 data per halaman
 
         return view('menu.index', compact('menu', 'search'));
     }
@@ -37,26 +35,15 @@ class MenuController extends Controller
             'harga' => 'required|numeric',
         ]);
 
-        Menu::create([
-            'id_menu' => $request->id_menu,
-            'nama_menu' => $request->nama_menu,
-            'jenis_menu' => $request->jenis_menu,
-            'harga' => $request->harga,
-        ]);
+        Menu::create($request->all());
 
         return redirect()->route('menu.index')->with('success', 'Menu berhasil ditambahkan!');
-    }
-
-    public function show($id)
-    {
-        $menu = Menu::findOrFail($id);
-        return view('menu.show', compact('menu'));
     }
 
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
-        return view('menu.update', compact('menu'));
+        return view('menu.edit', compact('menu'));
     }
 
     public function update(Request $request, $id_menu)
@@ -68,11 +55,7 @@ class MenuController extends Controller
         ]);
 
         $menu = Menu::findOrFail($id_menu);
-        $menu->update([
-            'nama_menu' => $request->nama_menu,
-            'jenis_menu' => $request->jenis_menu,
-            'harga' => $request->harga,
-        ]);
+        $menu->update($request->all());
 
         return redirect()->route('menu.index')->with('success', 'Menu berhasil diperbarui!');
     }

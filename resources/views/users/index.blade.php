@@ -1,4 +1,3 @@
-<!-- resources/views/users/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +14,7 @@
     <main class="flex-1 p-8">
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-2xl font-semibold text-gray-800">Users</h1>
-            <a href="{{ route('user.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Create New User</a>
+            <a href="{{ route('user.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Tambah User Baru</a>
         </div>
 
         <!-- Search bar -->
@@ -57,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $user)
+                    @forelse($users as $user)
                     <tr class="border-b">
                         <td class="px-6 py-4">{{ $user->id_user }}</td>
                         <td class="px-6 py-4">{{ $user->nama }}</td>
@@ -72,9 +71,18 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center">Tidak ada user ditemukan.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4 flex justify-center">
+            {{ $users->appends(['search' => request('search')])->links() }}
         </div>
     </main>
 </div>

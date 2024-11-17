@@ -20,9 +20,16 @@
 
         <!-- Search Bar -->
         <form action="{{ route('stock.index') }}" method="GET" class="mb-4">
-            <input type="text" name="search" placeholder="Cari Bahan..." class="px-4 py-2 w-full border rounded-lg focus:outline-none focus:border-blue-500">
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="Cari Bahan..." 
+                value="{{ request('search') }}" 
+                class="px-4 py-2 w-full border rounded-lg focus:outline-none focus:border-blue-500"
+            >
         </form>
 
+        <!-- Table -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="table-auto w-full">
                 <thead class="bg-gray-100 text-gray-600">
@@ -36,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($bahan as $item)
+                    @forelse($bahan as $item)
                         <tr class="border-b">
                             <td class="px-6 py-4">{{ $item->id_stok }}</td>
                             <td class="px-6 py-4">{{ $item->id_user }}</td>
@@ -52,9 +59,18 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-6 py-4 text-center">Tidak ada data bahan ditemukan.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4 flex justify-center">
+            {{ $bahan->links() }}
         </div>
     </main>
 </div>

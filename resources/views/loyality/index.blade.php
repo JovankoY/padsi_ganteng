@@ -16,7 +16,37 @@
     <main class="flex-1 p-8">
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-2xl font-semibold text-gray-800">Loyality</h1>
+            <a href="{{ route('loyality.create') }}" 
+               class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Tambah Pelanggan
+            </a>
         </div>
+
+        <!-- Notifikasi -->
+        @if(session('success'))
+            <div class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-6">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Search bar -->
+        <form action="{{ route('loyality.index') }}" method="GET" class="mb-4">
+    <div class="flex">
+        <input 
+            type="text" 
+            name="search" 
+            value="{{ request('search') }}" 
+            placeholder="Cari pelanggan..." 
+            class="w-full px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+        <button 
+            type="submit" 
+            class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"
+        >
+            Cari
+        </button>
+    </div>
+</form>
 
         <!-- Pelanggan Table -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden">

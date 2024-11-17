@@ -1,4 +1,3 @@
-<!-- resources/views/menu/index.blade.php -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -19,6 +18,13 @@
             <h1 class="text-2xl font-semibold text-gray-800">Menu</h1>
             <a href="{{ route('menu.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Tambah Menu Baru</a>
         </div>
+
+        <!-- Notifikasi -->
+        @if(session('success'))
+            <div class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-6">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <!-- Search bar -->
         <form action="{{ route('menu.index') }}" method="GET" class="mb-4">
@@ -52,27 +58,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($menu as $item)
-                    <tr class="border-b">
-                        <td class="px-6 py-4">{{ $item->id_menu }}</td>
-                        <td class="px-6 py-4">{{ $item->nama_menu }}</td>
-                        <td class="px-6 py-4">{{ $item->jenis_menu }}</td>
-                        <td class="px-6 py-4">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
-                        <td class="px-6 py-4 flex space-x-2">
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('menu.edit', $item->id_menu) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
-
-                            <!-- Delete Button -->
-                            <form action="{{ route('menu.destroy', $item->id_menu) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @forelse($menu as $item)
+                        <tr class="border-b">
+                            <td class="px-6 py-4">{{ $item->id_menu }}</td>
+                            <td class="px-6 py-4">{{ $item->nama_menu }}</td>
+                            <td class="px-6 py-4">{{ $item->jenis_menu }}</td>
+                            <td class="px-6 py-4">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                            <td class="px-6 py-4 flex space-x-2">
+                                <a href="{{ route('menu.edit', $item->id_menu) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <form action="{{ route('menu.destroy', $item->id_menu) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-4 text-center">Tidak ada menu yang ditemukan</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4 flex justify-center items-center">
+            {{ $menu->appends(['search' => request('search')])->links('pagination::tailwind') }}
         </div>
     </main>
 </div>
