@@ -17,4 +17,11 @@ class User extends Authenticatable
     protected $fillable = [
         'id_user', 'nama', 'no_handphone', 'role',
     ];
+
+    // Relasi ke model Transaksi
+public function transaksi()
+{
+    return $this->hasMany(Transaksi::class, 'id_user', 'id_user');
+}
+
 }

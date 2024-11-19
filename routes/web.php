@@ -102,6 +102,9 @@ Route::post('/loyality', [PelangganController::class, 'store'])->name('loyality.
 
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
 Route::get('/statement', [NotaController::class, 'index'])->name('statement.index');
 Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');

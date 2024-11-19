@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('transaksi', function (Blueprint $table) {
             $table->string('id_transaksi', 10)->primary();
             $table->float('total_harga');
@@ -23,8 +25,10 @@ return new class extends Migration
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->foreign('id_pelanggan')->references('id_pelanggan')->on('pelanggan')->onDelete('cascade');
 
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

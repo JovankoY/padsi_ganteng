@@ -34,12 +34,18 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id_pelanggan' => 'required|unique:pelanggans,id_pelanggan',
             'nama' => 'required|string|max:255',
             'no_handphone' => 'required|string|max:20',
             'kode_referal' => 'required|string|unique:pelanggan,kode_referal',
         ]);
 
-        Pelanggan::create($request->all());
+        Pelanggan::create([
+            'id_pelanggan' => $request->id_pelanggan,
+            'nama' => $request->nama,
+            'no_handphone' => $request->no_handphone,
+            'kode_referal' => $request->kode_referal,
+        ]);
 
         return redirect()->route('loyality.index')->with('success', 'Pelanggan berhasil ditambahkan.');
     }
