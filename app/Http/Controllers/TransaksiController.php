@@ -2,51 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi;
+use App\Models\Nota;
 use App\Models\User;
 use App\Models\Pelanggan;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
     public function index()
     {
-        $transactions = Transaksi::with('user', 'pelanggan')->paginate(10);
+        // Load relasi menu
+        $notas = Nota::with('menu')->paginate(10);
 
-        // Debugging data
-        \Log::info($transactions);
-
-        return view('transactions.index', compact('transactions'));
+        return view('transactions.index', compact('notas'));
     }
 
     public function create()
     {
         $users = User::all();
         $pelanggan = Pelanggan::all();
+        $menus = Menu::all();
 
-        return view('transactions.create', compact('users', 'pelanggan'));
+        return view('transactions.create', compact('users', 'pelanggan', 'menus'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_transaksi' => 'required|unique:transaksi,id_transaksi',
-            'total_harga' => 'required|numeric|min:0',
-            'tanggal_transaksi' => 'required|date',
-            'nama_pesanan' => 'required|string|max:255',
+            'id_transaksi' => 'required|unique:nota,id_transaksi',
+            'id_menu' => 'required|exists:menu,id_menu', 
             'id_user' => 'required|exists:users,id_user',
-            'id_pelanggan' => 'required|exists:pelanggans,id_pelanggan',
+            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
+            'harga_menu' => 'required|numeric|min:0',
+            'jumlah_pesanan' => 'required|integer|min:1',
+            'tanggal_transaksi' => 'required|date',
         ]);
 
-        Transaksi::create([
+        $total_harga = $request->harga_menu * $request->jumlah_pesanan;
+
+        Nota::create([
             'id_transaksi' => $request->id_transaksi,
-            'total_harga' => $request->total_harga,
             'tanggal_transaksi' => $request->tanggal_transaksi,
-            'nama_pesanan' => $request->nama_pesanan,
+            'id_menu' => $request->id_menu,
             'id_user' => $request->id_user,
             'id_pelanggan' => $request->id_pelanggan,
+            'harga_menu' => $request->harga_menu,
+            'jumlah_pesanan' => $request->jumlah_pesanan,
+            'total_harga' => $total_harga,
         ]);
-    
-        return redirect()->route('transaksi.index')->with('success', 'Transaction created successfully.');
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
     }
 }

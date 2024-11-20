@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nota', function (Blueprint $table) {
-            $table->string('id_transaksi', 10)->primary();
-            $table->timestamp('tanggal_transaksi');
-            $table->float('jumlah_pendapatan');
-            $table->string('nama_pesanan', 20);
-            $table->float('total_harga');
+            $table->string('id_transaksi', 10)->primary(); // Primary key
+            $table->timestamp('tanggal_transaksi'); // Waktu transaksi
+            $table->string('id_menu', 10); // ID menu
+            $table->float('harga_menu'); // Harga per menu
+            $table->integer('jumlah_pesanan'); // Jumlah pesanan
+            $table->float('total_harga'); // Total harga pesanan
             
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->timestamps(); // Kolom created_at dan updated_at
         });
     }
 

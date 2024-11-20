@@ -60,13 +60,13 @@
                 <tbody>
                     @forelse($menu as $item)
                         <tr class="border-b">
-                            <td class="px-6 py-4">{{ $item->id_menu }}</td>
+                            <td class="px-6 py-4">{{ $item->id }}</td>
                             <td class="px-6 py-4">{{ $item->nama_menu }}</td>
                             <td class="px-6 py-4">{{ $item->jenis_menu }}</td>
                             <td class="px-6 py-4">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                             <td class="px-6 py-4 flex space-x-2">
-                                <a href="{{ route('menu.edit', $item->id_menu) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
-                                <form action="{{ route('menu.destroy', $item->id_menu) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
+                                <a href="{{ route('menu.edit', $item->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <form action="{{ route('menu.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>

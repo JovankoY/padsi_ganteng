@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('menu', function (Blueprint $table) {
             $table->string('id_menu', 10)->primary();
-            $table->string('nama_menu', 50);
-            $table->string('jenis_menu', 10);
-            $table->float('harga');
+            $table->string('nama_menu', 255); // Memperluas panjang nama_menu
+            $table->string('jenis_menu', 50); // Memperluas panjang jenis_menu
+            $table->decimal('harga', 10, 2); // Mengganti float dengan decimal
             
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->timestamps();
         });
     }
 
@@ -29,3 +29,4 @@ return new class extends Migration
         Schema::dropIfExists('menu');
     }
 };
+

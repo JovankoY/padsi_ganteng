@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         // Validasi input
         $request->validate([
-            'id_user' => 'required|unique:users,id_user',
+            'id' => 'required|unique:users,id',
             'nama' => 'required',
             'no_handphone' => 'required',
             'role' => 'required',
@@ -47,12 +47,19 @@ class UserController extends Controller
     }
 
     // Menampilkan form edit user
-    public function edit($id_user)
-    {
-        // Mencari user berdasarkan ID
-        $user = User::findOrFail($id_user); 
-        return view('users.edit', compact('user')); // Menampilkan form edit dengan data user
-    }
+    // public function edit($id_user)
+    // {
+    //     // Mencari user berdasarkan ID
+    //     $user = User::findOrFail($id_user); 
+    //     return view('users.edit', compact('user')); // Menampilkan form edit dengan data user
+    // }
+
+    public function edit($id)
+{
+    $user = User::findOrFail($id);
+    return view('user.edit', compact('user'));
+}
+
 
     // Memperbarui data user
     public function update(Request $request, $id_user)

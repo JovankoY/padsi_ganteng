@@ -17,7 +17,7 @@
         </div>
 
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <form action="{{ route('user.update', $user->id_user) }}" method="POST">
+            <form action="{{ route('user.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 

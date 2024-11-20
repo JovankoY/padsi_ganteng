@@ -45,7 +45,7 @@ Route::get('/statement', function () {
     return view('statement');
 });
 
-Route::get('/user', function () {
+Route::get('user', function () {
     return view('user');
 });
 
@@ -58,11 +58,15 @@ Route::get('stock', function () {
 Route::resource('menu', MenuController::class);
 Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
 Route::delete('menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
-Route::put('menu/{id_menu}', [MenuController::class, 'update'])->name('menu.update');
+Route::put('menu/{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
 
+Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::post('/user', [MenuController::class, 'store'])->name('user.store');
 Route::resource('user', UserController::class);
+Route::get('menu', [MenuController::class, 'index'])->name('menu.index');
+Route::get('menu/{menu}/edit', [MenuController::class, 'edit'])->name('menu.edit');
+
 
 // // Rute untuk halaman index bahan
 // Route::get('stock', [BahanController::class, 'index'])->name('stock.index');

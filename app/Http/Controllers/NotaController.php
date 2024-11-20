@@ -14,5 +14,6 @@ class NotaController extends Controller
         $notas = Nota::all(); // Mengambil semua data dari tabel nota
         return view('statement.index', compact('notas')); // Pastikan ini sesuai dengan nama file tampilan
     }
+   
 }
 

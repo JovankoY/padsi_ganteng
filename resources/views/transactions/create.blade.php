@@ -20,6 +20,7 @@
 
         <form action="{{ route('transaksi.store') }}" method="POST" class="bg-white shadow-md rounded-lg p-6">
             @csrf
+
             <!-- ID Transaksi -->
             <div class="mb-4">
                 <label for="id_transaksi" class="block text-gray-700">Transaction ID</label>
@@ -29,46 +30,63 @@
             <!-- Transaction Date -->
             <div class="mb-4">
                 <label for="tanggal_transaksi" class="block text-gray-700">Transaction Date</label>
-                <input type="date" name="tanggal_transaksi" id="tanggal_transaksi" class="w-full p-2 border rounded" required>
+                <input type="datetime-local" name="tanggal_transaksi" id="tanggal_transaksi" class="w-full p-2 border rounded" required>
             </div>
 
-            <!-- Order Name -->
+            <!-- Menu Selection -->
             <div class="mb-4">
-                <label for="nama_pesanan" class="block text-gray-700">Order Name</label>
-                <input type="text" name="nama_pesanan" id="nama_pesanan" class="w-full p-2 border rounded" required>
+                <label for="id_menu" class="block text-gray-700">Menu</label>
+                <select name="id_menu" id="id_menu" class="w-full p-2 border rounded" required>
+                    @foreach($menus as $menu)
+                        <option value="{{ $menu->id_menu }}" data-price="{{ $menu->harga }}">{{ $menu->nama_menu }} - Rp {{ number_format($menu->harga, 0, ',', '.') }}</option>
+                    @endforeach
+                </select>
             </div>
 
-             <!-- Total Price -->
-             <div class="mb-4">
+            <!-- Order Quantity -->
+            <div class="mb-4">
+                <label for="jumlah_pesanan" class="block text-gray-700">Order Quantity</label>
+                <input type="number" name="jumlah_pesanan" id="jumlah_pesanan" class="w-full p-2 border rounded" required>
+            </div>
+
+            <!-- Total Price -->
+            <div class="mb-4">
                 <label for="total_harga" class="block text-gray-700">Total Price</label>
-                <input type="number" name="total_harga" id="total_harga" class="w-full p-2 border rounded" required>
+                <input type="number" name="total_harga" id="total_harga" class="w-full p-2 border rounded" readonly>
             </div>
 
-            <!-- User Dropdown -->
-            <div class="mb-4">
-                <label for="id_user" class="block text-gray-700">User</label>
-                <select name="id_user" id="id_user" class="w-full p-2 border rounded" required>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->nama }} ({{ $user->role }})</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- Customer Dropdown -->
-            <div class="mb-4">
-                <label for="id_pelanggan" class="block text-gray-700">Customer</label>
-                <select name="id_pelanggan" id="id_pelanggan" class="w-full p-2 border rounded" required>
-                    @foreach($pelanggan as $pelanggan)
-                        <option value="{{ $pelanggan->id_pelanggan }}">{{ $pelanggan->nama }} ({{ $pelanggan->no_handphone }})</option>
-                    @endforeach
-                </select>
-            </div>
+            <input type="hidden" name="harga_menu" id="harga_menu">
 
             <!-- Submit Button -->
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Save</button>
         </form>
     </main>
 </div>
+
+<script>
+    const menuSelect = document.getElementById('id_menu');
+    const jumlahPesananInput = document.getElementById('jumlah_pesanan');
+    const totalHargaInput = document.getElementById('total_harga');
+    const hargaMenuInput = document.getElementById('harga_menu');
+
+    // Fungsi untuk menghitung total harga
+    function calculateTotalPrice() {
+        const selectedOption = menuSelect.options[menuSelect.selectedIndex];
+        const hargaMenu = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+        const jumlahPesanan = parseInt(jumlahPesananInput.value) || 0;
+        totalHargaInput.value = hargaMenu * jumlahPesanan;
+        hargaMenuInput.value = hargaMenu;
+    }
+
+    // Event listener untuk ketika memilih menu
+    menuSelect.addEventListener('change', calculateTotalPrice);
+
+    // Event listener untuk ketika jumlah pesanan berubah
+    jumlahPesananInput.addEventListener('input', calculateTotalPrice);
+
+    // Inisialisasi total harga saat pertama kali load
+    calculateTotalPrice();
+</script>
 
 </body>
 </html>

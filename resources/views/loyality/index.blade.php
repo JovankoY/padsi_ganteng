@@ -53,7 +53,7 @@
             <table class="table-auto w-full">
                 <thead class="bg-gray-100 text-gray-600">
                     <tr>
-                        <th class="px-6 py-3 text-left">ID Pelanggan</th>
+                        <!-- <th class="px-6 py-3 text-left">ID Pelanggan</th> -->
                         <th class="px-6 py-3 text-left">Nama</th>
                         <th class="px-6 py-3 text-left">No Handphone</th>
                         <th class="px-6 py-3 text-left">Kode Referal</th>
@@ -62,7 +62,7 @@
                 <tbody>
                     @foreach($pelanggan as $item)
                     <tr class="border-b">
-                        <td class="px-6 py-4">{{ $item->id_pelanggan }}</td>
+                        <!-- <td class="px-6 py-4">{{ $item->id_pelanggan }}</td> -->
                         <td class="px-6 py-4">{{ $item->nama }}</td>
                         <td class="px-6 py-4">{{ $item->no_handphone }}</td>
                         <td class="px-6 py-4">{{ $item->kode_referal }}</td>

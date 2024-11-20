@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('user', function (Blueprint $table) {
             $table->string('id_user', 10)->primary();
             $table->string('nama', 30);
             $table->string('no_handphone', 12);
             $table->string('role', 10);
             $table->timestamps(); // Menambahkan created_at dan updated_at
+            // Schema::rename('user', 'users');
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('user');
+        Schema::rename('users', 'user');
     }
 };

@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
             PelangganSeeder::class,
             BahanSeeder::class,
             MenuSeeder::class,
-            NotaSeeder::class,
             TransaksiSeeder::class,
+            NotaSeeder::class,
         ]);
     }
 }

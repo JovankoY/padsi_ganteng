@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bahan', function (Blueprint $table) {
-            $table->string('id_stok', 10)->primary();
-            $table->string('id_user', 10);
+            $table->string('id_bahan', 10)->primary();
+            $table->string('id_user', 10); // Disesuaikan dengan tabel user
             $table->string('nama_barang', 20);
             $table->string('jenis_barang', 15);
             $table->integer('jumlah_barang');
             $table->timestamps(); // Menambahkan kolom created_at dan updated_at
 
-            // Foreign key ke tabel users
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            
+            // Foreign key ke tabel user
+            $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
         });
     }
 
