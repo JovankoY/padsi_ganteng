@@ -55,10 +55,13 @@
     </main>
 </div>
 
-<!-- Pagination Links -->
-<div class="p-4">
-    {{ $notas->links() }}
+ <!-- Pagination -->
+ <div class="mt-4 flex justify-center items-center">
+            {{ $notas->appends(['search' => request('search')])->links('pagination::tailwind') }}
+        </div>
+    </main>
 </div>
+
 
 </body>
 

@@ -12,7 +12,7 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        // Load relasi menu
+        // Memuat data nota dengan relasi menu
         $notas = Nota::with('menu')->paginate(10);
 
         return view('transactions.index', compact('notas'));
@@ -20,6 +20,7 @@ class TransaksiController extends Controller
 
     public function create()
     {
+        // Mengambil data pengguna, pelanggan, dan menu untuk form
         $users = User::all();
         $pelanggan = Pelanggan::all();
         $menus = Menu::all();
@@ -29,29 +30,24 @@ class TransaksiController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'id_transaksi' => 'required|unique:nota,id_transaksi',
-            'id_menu' => 'required|exists:menu,id_menu', 
-            'id_user' => 'required|exists:users,id_user',
-            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
+            'id_menu' => 'required|exists:menu,id_menu',
             'harga_menu' => 'required|numeric|min:0',
             'jumlah_pesanan' => 'required|integer|min:1',
             'tanggal_transaksi' => 'required|date',
         ]);
 
+        // Hitung total harga dan tambahkan ke dalam request
         $total_harga = $request->harga_menu * $request->jumlah_pesanan;
+        $data = $request->all();
+        $data['total_harga'] = $total_harga;
 
-        Nota::create([
-            'id_transaksi' => $request->id_transaksi,
-            'tanggal_transaksi' => $request->tanggal_transaksi,
-            'id_menu' => $request->id_menu,
-            'id_user' => $request->id_user,
-            'id_pelanggan' => $request->id_pelanggan,
-            'harga_menu' => $request->harga_menu,
-            'jumlah_pesanan' => $request->jumlah_pesanan,
-            'total_harga' => $total_harga,
-        ]);
+        // Simpan data baru ke database
+        Nota::create($data);
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
+        // Redirect ke halaman indeks dengan pesan sukses
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil ditambahkan!');
     }
 }

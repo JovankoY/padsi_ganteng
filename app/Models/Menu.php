@@ -32,4 +32,5 @@ class Menu extends Model
     {
         return $this->hasMany(Transaksi::class, 'id_menu'); // Foreign key disesuaikan
     }
+    
 }
