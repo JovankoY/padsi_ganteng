@@ -29,10 +29,7 @@ class Nota extends Model
         return $this->belongsTo(Menu::class, 'id_menu', 'id_menu'); // Foreign key disesuaikan
     }
 
-    public function menuItems()
-{
-    return $this->hasMany(MenuNota::class, 'nota_id');
-}
+  
 
 
     // public function user()

@@ -18,20 +18,9 @@ class Transaksi extends Model
         'id_transaksi',
         'total_harga',
         'tanggal_transaksi',
-        'id_user',
-        'id_pelanggan',
         'id_menu',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
-    }
-
-    public function pelanggan()
-    {
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id_pelanggan');
-    }
 
     public function menu()
     {

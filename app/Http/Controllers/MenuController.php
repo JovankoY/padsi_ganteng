@@ -77,14 +77,11 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $menu = Menu::when($search, function ($query, $search) {
-            return $query->where('nama_menu', 'like', '%' . $search . '%');
-        })->paginate(10);
-
-        return view('menu.index', compact('menu', 'search'));
-    }
+{
+    $menus = Menu::all(); // Atau metode lain untuk mengambil data
+    // dd($menus);
+    return view('menu.index', compact('menus'));
+}
 
     public function create()
     {
@@ -106,11 +103,11 @@ class MenuController extends Controller
 
     public function edit($id)
     {
-        $menu = Menu::findOrFail($id); // Pastikan parameter cocok
-        return view('menu.update', compact('menu'));
+        $menus = Menu::findOrFail($id); // Pastikan parameter cocok
+        return view('menu.edit', compact('menus'));
     }
 
-    public function update(Request $request, $id_menu)
+    public function update(Request $request)
     {
         $request->validate([
             'nama_menu' => 'required|string|max:255',
@@ -126,8 +123,9 @@ class MenuController extends Controller
 
     public function destroy($id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->delete();
+        $menus = Menu::findOrFail($id);
+        dd($id);
+        $menus->delete();
 
         return redirect()->route('menu.index')->with('success', 'Menu berhasil dihapus!');
     }

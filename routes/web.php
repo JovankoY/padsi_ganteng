@@ -65,7 +65,7 @@ Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edi
 Route::post('/user', [MenuController::class, 'store'])->name('user.store');
 Route::resource('user', UserController::class);
 Route::get('menu', [MenuController::class, 'index'])->name('menu.index');
-Route::get('menu/{menu}/edit', [MenuController::class, 'edit'])->name('menu.edit');
+Route::get('/menu/{id}/edit', [MenuController::class, 'edit'])->name('menu.edit');
 
 
 // // Rute untuk halaman index bahan

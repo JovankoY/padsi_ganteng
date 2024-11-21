@@ -18,7 +18,7 @@
         </div>
 
         <div class="bg-white shadow-md rounded-lg p-6">
-            <form action="{{ route('menu.update', $menu->id) }}" method="POST">
+            <form action="{{ route('menu.edit', $menu->id_menu) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-4">

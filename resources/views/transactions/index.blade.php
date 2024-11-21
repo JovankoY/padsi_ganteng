@@ -22,46 +22,39 @@
         </div>
 
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <table class="table-auto w-full">
-    <thead class="bg-gray-100 text-gray-600">
-        <tr>
-            <th class="px-6 py-3 text-left">Id Transaksi</th>
-            <th class="px-6 py-3 text-left">Tanggal Transaksi</th>
-            <th class="px-6 py-3 text-left">Nama Menu</th>
-            <th class="px-6 py-3 text-left">Harga Menu</th>
-            <th class="px-6 py-3 text-left">Jumlah Pesanan</th>
-            <th class="px-6 py-3 text-left">Total Harga</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($notas as $nota)
-            <tr class="border-b">
-                <td class="px-6 py-4">{{ $nota->id_transaksi }}</td>
-                <td class="px-6 py-4">{{ \Carbon\Carbon::parse($nota->tanggal_transaksi)->format('d-m-Y H:i') }}</td>
-                <td class="px-6 py-4">{{ $nota->menu->nama_menu ?? 'Menu not found' }}</td>
-                <td class="px-6 py-4">{{ number_format($nota->harga_menu, 0, ',', '.') }}</td>
-                <td class="px-6 py-4">{{ $nota->jumlah_pesanan }}</td>
-                <td class="px-6 py-4">{{ number_format($nota->total_harga, 0, ',', '.') }}</td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="6" class="px-6 py-4 text-center text-gray-500">No transactions found</td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+            <table class="table-auto w-full">
+                <thead class="bg-gray-100 text-gray-600">
+                    <tr>
+                        <th class="px-6 py-3 text-left">Transaction ID</th>
+                        <th class="px-6 py-3 text-left">Date</th>
+                        <th class="px-6 py-3 text-left">Menu Name</th>
+                        <th class="px-6 py-3 text-left">Total Harga</th>
+                        <th class="px-6 py-3 text-left">Kembalian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($notas as $nota)
+                        <tr class="border-b">
+                            <td class="px-6 py-4">{{ $nota->id_transaksi }}</td>
+                            <td class="px-6 py-4">{{ \Carbon\Carbon::parse($nota->tanggal_transaksi)->format('d-m-Y H:i') }}</td>
+                            <td class="px-6 py-4">{{ $nota->menu->nama_menu ?? 'Menu not found' }}</td>
+                            <td class="px-6 py-4">Rp {{ number_format($nota->total_harga, 0, ',', '.') }}</td>
+                            <td class="px-6 py-4">Rp {{ number_format($nota->kembalian, 0, ',', '.') }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">No transactions found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
 
+        <div class="mt-4">
+            {{ $notas->links('pagination::tailwind') }}
         </div>
     </main>
 </div>
-
- <!-- Pagination -->
- <div class="mt-4 flex justify-center items-center">
-            {{ $notas->appends(['search' => request('search')])->links('pagination::tailwind') }}
-        </div>
-    </main>
-</div>
-
 
 </body>
 
