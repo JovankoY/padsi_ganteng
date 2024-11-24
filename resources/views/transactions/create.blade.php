@@ -11,10 +11,8 @@
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
 <div class="flex min-h-screen">
-    <!-- Sidebar -->
     <x-sidebar></x-sidebar>
 
-    <!-- Content Area -->
     <main class="flex-1 p-8">
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-2xl font-semibold text-gray-800">Create Transaction</h1>

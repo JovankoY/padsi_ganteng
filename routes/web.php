@@ -99,10 +99,13 @@ Route::get('stock/{id}/edit', [BahanController::class, 'edit'])->name('stock.edi
 Route::put('stock/{id}', [BahanController::class, 'update'])->name('stock.update');
 Route::delete('/stock/{id_stok}', [BahanController::class, 'destroy'])->name('stock.destroy');
 
+Route::prefix('loyality')->name('loyality.')->group(function() {
+    Route::get('/', [PelangganController::class, 'index'])->name('index');
+    Route::get('create', [PelangganController::class, 'create'])->name('create');
+    Route::post('store', [PelangganController::class, 'store'])->name('store');
+    Route::post('redeem-referal', [PelangganController::class, 'redeemReferal'])->name('redeemReferal');
+});
 
-Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
-Route::get('/loyality/create', [PelangganController::class, 'create'])->name('loyality.create');
-Route::post('/loyality', [PelangganController::class, 'store'])->name('loyality.store');
 
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
@@ -110,7 +113,7 @@ Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('t
 Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
 
 Route::get('/statement', [NotaController::class, 'index'])->name('statement.index');
-Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
+// Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');

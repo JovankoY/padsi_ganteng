@@ -22,46 +22,30 @@ class TransaksiController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'id_transaksi' => 'required|string|max:255', // Mengubah max:999 menjadi max:255 sesuai standar string
-        'tanggal_transaksi' => 'required|date',
-        'menus' => 'required|array',
-        'menus.*.id_menu' => 'required|exists:menu,id_menu',
-        'menus.*.jumlah_pesanan' => 'required|integer|min:1',
-        'uang_pembeli' => 'required|numeric|min:0',
-    ]);
-    dd($request->all());
-    // Hitung total harga
-    $total_harga = 0;
-    foreach ($request->menus as $menu) {
-        $menu_data = Menu::findOrFail($menu['id_menu']);
-        $total_harga += $menu_data->harga * $menu['jumlah_pesanan'];
-    }
-
-    // Validasi uang pembeli
-    if ($request->uang_pembeli < $total_harga) {
-        return redirect()->back()->withErrors(['uang_pembeli' => 'Uang pembeli tidak cukup.']);
-    }
-
-    $kembalian = $request->uang_pembeli - $total_harga;
-
-    // Generate ID Transaksi
-    $id_transaksi = Str::uuid()->toString();
-
-    // Simpan setiap menu ke dalam tabel Nota
-    foreach ($request->menus as $menu) {
-        Nota::create([
-            'id_transaksi' => $id_transaksi,
-            'id_menu' => $menu['id_menu'],
-            'jumlah_pesanan' => $menu['jumlah_pesanan'],
-            'total_harga' => $menu['jumlah_pesanan'] * Menu::find($menu['id_menu'])->harga,
-            'tanggal_transaksi' => $request->tanggal_transaksi,
+    {
+        $request->validate([
+            'id_transaksi' => 'required|unique:nota,id_transaksi',
+            'id_menu' => 'required|exists:menu,id_menu', 
+            'id_user' => 'required|exists:users,id_user',
+            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
+            'harga_menu' => 'required|numeric|min:0',
+            'jumlah_pesanan' => 'required|integer|min:1',
+            'tanggal_transaksi' => 'required|date',
         ]);
-    }
 
-    // Redirect ke halaman index dengan pesan sukses
-    return redirect()->route('transaksi.index')
-        ->with('success', "Transaksi berhasil ditambahkan! Kembalian: Rp " . number_format($kembalian, 0, ',', '.'));
-}
+        $total_harga = $request->harga_menu * $request->jumlah_pesanan;
+
+        Nota::create([
+            'id_transaksi' => $request->id_transaksi,
+            'tanggal_transaksi' => $request->tanggal_transaksi,
+            'id_menu' => $request->id_menu,
+            'id_user' => $request->id_user,
+            'id_pelanggan' => $request->id_pelanggan,
+            'harga_menu' => $request->harga_menu,
+            'jumlah_pesanan' => $request->jumlah_pesanan,
+            'total_harga' => $total_harga,
+        ]);
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
+    }
 }

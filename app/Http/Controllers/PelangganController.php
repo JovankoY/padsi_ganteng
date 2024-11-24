@@ -49,4 +49,28 @@ class PelangganController extends Controller
 
         return redirect()->route('loyality.index')->with('success', 'Pelanggan berhasil ditambahkan.');
     }
+
+    // Redeem kode referal
+    public function redeemReferal(Request $request)
+    {
+        $request->validate([
+            'kode_referal' => 'required|exists:pelanggan,kode_referal',
+        ]);
+
+        // Cari pelanggan berdasarkan kode referal
+        $pelangganReferal = Pelanggan::where('kode_referal', $request->kode_referal)->first();
+
+        if ($pelangganReferal) {
+            // Pop-up hadiah
+            session()->flash('success', [
+                'pesan_pelanggan' => 'Selamat! Anda mendapatkan voucher makan gratis!',
+                'pesan_referal' => 'Selamat! Anda mendapatkan kode voucher dari pelanggan baru!'
+            ]);
+        } else {
+            // Jika kode tidak valid
+            session()->flash('error', 'Kode referal tidak valid.');
+        }
+
+        return redirect()->route('loyality.index');
+    }
 }
