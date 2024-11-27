@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         // Validasi input
         $request->validate([
-            'id' => 'required|unique:users,id',
+            'id_user' => 'required|unique:user,id_user',
             'nama' => 'required',
             'no_handphone' => 'required',
             'role' => 'required',
@@ -57,27 +57,27 @@ class UserController extends Controller
     public function edit($id)
 {
     $user = User::findOrFail($id);
-    return view('user.edit', compact('user'));
+    return view('users.edit', compact('user'));
 }
 
 
     // Memperbarui data user
-    public function update(Request $request, $id_user)
-    {
-        // Validasi input
-        $request->validate([
-            'nama' => 'required',
-            'no_handphone' => 'required',
-            'role' => 'required',
-        ]);
+public function update(Request $request, $id_user)
+{
+    // Validasi input
+    $request->validate([
+        'nama' => 'required',
+        'no_handphone' => 'required',
+        'role' => 'required',
+    ]);
 
-        // Mencari user berdasarkan ID
-        $user = User::findOrFail($id_user);
-        $user->update($request->all()); // Memperbarui data user
+    // Mencari user berdasarkan ID
+    $user = User::findOrFail($id_user);
+    $user->update($request->all()); // Memperbarui data user
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui');
-    }
+    // Redirect ke halaman index dengan pesan sukses
+    return redirect()->route('user.index')->with('success', 'User berhasil diperbarui');
+}
 
     // Menghapus user
     public function destroy($id_user)

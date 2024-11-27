@@ -56,16 +56,19 @@ Route::get('stock', function () {
 // Tambahkan route resource untuk menus di bawah ini
 
 Route::resource('menu', MenuController::class);
+Route::get('menu', [MenuController::class, 'index'])->name('menu.index');
 Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
 Route::delete('menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
 Route::put('menu/{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
+Route::get('/menu{id}/edit', [MenuController::class, 'edit'])->name('menu.edit');
 
-Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::get('user', [UserController::class, 'index'])->name('user.index');
 Route::post('/user', [MenuController::class, 'store'])->name('user.store');
 Route::resource('user', UserController::class);
-Route::get('menu', [MenuController::class, 'index'])->name('menu.index');
-Route::get('/menu/{id}/edit', [MenuController::class, 'edit'])->name('menu.edit');
+Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+
 
 
 // // Rute untuk halaman index bahan
