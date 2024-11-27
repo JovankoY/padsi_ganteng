@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pelanggan', function (Blueprint $table) {
-            $table->string('id_pelanggan', 10)->primary();
+            $table->string('id_pelanggan', 4)->primary();
             $table->string('nama', 30);
             $table->string('no_handphone', 12)->nullable();
-            $table->string('kode_referal', 10)->nullable();
+            $table->string('id_kode_ref', 36)->nullable();
             $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+
+            $table->foreign('id_kode_ref')->references('id_kode_ref')->on('koderef')->onDelete('restrict');
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pelanggans');
+        Schema::dropIfExists('pelanggan');
     }
 };

@@ -17,7 +17,7 @@
     <main class="flex-1 p-8">
         <h1 class="text-2xl font-semibold text-gray-800">Edit Bahan</h1>
 
-        <form action="{{ route('stock.update', $bahan->id_stok) }}" method="POST">
+        <form action="{{ route('stock.update', $bahan->id_bahan) }}" method="POST">
             @csrf
             @method('PUT')
 

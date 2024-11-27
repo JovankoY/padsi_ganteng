@@ -45,14 +45,14 @@
                 <tbody>
                     @forelse($bahan as $item)
                         <tr class="border-b">
-                            <td class="px-6 py-4">{{ $item->id_stok }}</td>
+                            <td class="px-6 py-4">{{ $item->id_bahan }}</td>
                             <td class="px-6 py-4">{{ $item->id_user }}</td>
                             <td class="px-6 py-4">{{ $item->nama_barang }}</td>
                             <td class="px-6 py-4">{{ $item->jenis_barang }}</td>
                             <td class="px-6 py-4">{{ $item->jumlah_barang }}</td>
                             <td class="px-6 py-4 flex space-x-2">
-                                <a href="{{ route('stock.edit', $item->id_stok) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
-                                <form action="{{ route('stock.destroy', $item->id_stok) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus bahan ini?');">
+                                <a href="{{ route('stock.edit', $item->id_bahan) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <form action="{{ route('stock.destroy', $item->id_bahan) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus bahan ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Hapus</button>

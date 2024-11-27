@@ -34,7 +34,7 @@ class BahanController extends Controller
     {
         // Validasi input
         $request->validate([
-            'id_stok' => 'required|string|max:10',
+            'id_bahan' => 'required|string|max:10',
             'id_user' => 'required|string|max:10',
             'nama_barang' => 'required|string|max:20',
             'jenis_barang' => 'required|string|max:15',
@@ -49,15 +49,15 @@ class BahanController extends Controller
     }
 
     // Menampilkan form edit untuk bahan dengan id tertentu
-    public function edit($id_stok)
+    public function edit($id)
     {
         // Mencari bahan berdasarkan id_stok
-        $bahan = Bahan::findOrFail($id_stok);
+        $bahan = Bahan::findOrFail($id);
         return view('stock.edit', compact('bahan'));
     }
 
     // Memperbarui data bahan
-    public function update(Request $request, $id_stok)
+    public function update(Request $request, $id)
     {
         // Validasi input
         $request->validate([
@@ -66,7 +66,7 @@ class BahanController extends Controller
         ]);
 
         // Mencari data bahan berdasarkan id_stok
-        $bahan = Bahan::findOrFail($id_stok);
+        $bahan = Bahan::findOrFail($id);
 
         // Update data bahan
         $bahan->update([
@@ -79,10 +79,10 @@ class BahanController extends Controller
     }
 
     // Menghapus bahan
-    public function destroy($id_stok)
+    public function destroy($id)
     {
         // Mencari dan menghapus bahan berdasarkan id_stok
-        $bahan = Bahan::findOrFail($id_stok);
+        $bahan = Bahan::findOrFail($id);
         $bahan->delete();
 
         // Redirect ke halaman index dengan pesan sukses

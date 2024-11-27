@@ -97,7 +97,7 @@ Route::get('stock/{id}/edit', [BahanController::class, 'edit'])->name('stock.edi
 
 // Rute untuk memperbarui stok (method PUT)
 Route::put('stock/{id}', [BahanController::class, 'update'])->name('stock.update');
-Route::delete('/stock/{id_stok}', [BahanController::class, 'destroy'])->name('stock.destroy');
+Route::delete('/stock/{id}', [BahanController::class, 'destroy'])->name('stock.destroy');
 
 Route::prefix('loyality')->name('loyality.')->group(function() {
     Route::get('/', [PelangganController::class, 'index'])->name('index');

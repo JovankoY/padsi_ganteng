@@ -19,10 +19,15 @@ class User extends Authenticatable
     ];
 
     // Relasi ke model Transaksi
-public function transaksi()
-{
-    return $this->hasMany(Transaksi::class, 'id_user');
-}
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'id_user');
+    }
 
+    public function bahan()
+    {
+        return $this->hasMany(Bahan::class, 'id_bahan');
+    }
+    
 }
 

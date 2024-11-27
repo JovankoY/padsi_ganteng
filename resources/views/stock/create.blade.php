@@ -23,7 +23,7 @@
                 <!-- Input untuk ID Stok -->
                 <div class="mb-4">
                     <label for="id_stok" class="block text-gray-700">ID Stok</label>
-                    <input type="text" id="id_stok" name="id_stok" 
+                    <input type="text" id="id_bahan" name="id_bahan" 
                            class="w-full px-4 py-2 border rounded-lg" required>
                 </div>
 
