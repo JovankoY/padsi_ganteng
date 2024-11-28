@@ -40,6 +40,7 @@ class MenuController extends Controller
 
     public function update(Request $request, $id)
     {
+        //test
         $request->validate([
             'nama_menu' => 'required|string|max:255',
             'jenis_menu' => 'required|string|max:255',
