@@ -42,8 +42,6 @@
                 LOGIN
             </a>
             </div>
-            
-
             <!-- Fullscreen Image Section with Decorations -->
             
 </div>
