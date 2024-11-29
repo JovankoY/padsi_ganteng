@@ -24,7 +24,7 @@
     <!-- Main Content -->
     <div class="flex-1 p-8">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold">Tambah Penjualan</h1>
+            <h1 class="text-2xl font-bold">Tambah Transaksi</h1>
             <p id="currentTime" class="text-gray-600"></p>
         </div>
         <!-- Error umum -->
@@ -38,35 +38,38 @@
             </div>
         @endif
 
-        <!-- Form Content -->
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <div class="grid grid-cols-3 gap-5">
-                <!-- Tanggal -->
-                <div>
-                    <label for="tanggal_transaksi" class="font-semibold block text-gray-700">Tanggal</label>
-                    <input type="date" id="tanggal_transaksi" class="w-full px-4 py-2 border rounded-lg" />
-                    @error('tanggal_transaksi')
-                        <span class="text-sm text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Pegawai -->
-                <div>
-                    <label for="pegawai" class="font-semibold block text-gray-700">Pegawai</label>
-                    <input type="text" id="pegawai"
-                        class="w-full px-4 py-2 font-semibold border rounded-lg bg-white focus:outline-none cursor-default"
-                        value="{{ Auth::user()->nama }}" placeholder="Nama pegawai" readonly />
-                </div>
-                <div>
-                    <p class="text-md
-                     text-gray-700 font-semibold">Pelanggan</p>
+                <!-- Form Content -->
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <div class="grid grid-cols-1 gap-5">
+                    <!-- Tanggal -->
                     <div>
-                        <input type="text" id="pelanggan"
-                            class="w-full font-semibold px-4 py-2 border rounded-lg bg-white focus:outline-none cursor-default"
-                            placeholder="Nama pelanggan" readonly />
+                        <label for="tanggal_transaksi" class="font-semibold block text-gray-700">Tanggal</label>
+                        <input type="date" id="tanggal_transaksi" class="w-full px-4 py-2 border rounded-lg" />
+                        @error('tanggal_transaksi')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Pegawai -->
+                    <div>
+                        <label for="pegawai" class="font-semibold block text-gray-700">Pegawai</label>
+                        <input type="text" id="pegawai"
+                            class="w-full px-4 py-2 font-semibold border rounded-lg bg-white focus:outline-none cursor-default"
+                            value="{{ Auth::user()->nama }}" placeholder="Nama pegawai" readonly />
+                    </div>
+
+                    <!-- Pelanggan -->
+                    <div>
+                        <label for="pelanggan" class="text-md text-gray-700 font-semibold">Pelanggan</label>
+                        <div>
+                            <input type="text" id="pelanggan"
+                                class="w-full font-semibold px-4 py-2 border rounded-lg bg-white focus:outline-none cursor-default"
+                                placeholder="Nama pelanggan" readonly />
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <div class="mt-10">
                 <!-- Pilihan -->
