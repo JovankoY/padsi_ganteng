@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('menu', function (Blueprint $table) {
-            $table->string('id_menu', 10)->primary();
+            $table->id('id_menu');
             $table->string('nama_menu', 255); // Memperluas panjang nama_menu
             $table->string('jenis_menu', 50); // Memperluas panjang jenis_menu
             $table->decimal('harga', 10, 2); // Mengganti float dengan decimal

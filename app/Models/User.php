@@ -11,8 +11,8 @@ class User extends Authenticatable
 
     protected $table = 'user'; // Nama tabel di database
     protected $primaryKey = 'id_user'; // Primary key khusus
-    protected $keyType = 'string'; // Primary key bertipe string (jika sesuai)
-    public $incrementing = false; // Non-incremental key jika id_user tidak auto-increment
+    // protected $keyType = 'string'; // Primary key bertipe string (jika sesuai)
+    // public $incrementing = false; // Non-incremental key jika id_user tidak auto-increment
 
     protected $fillable = [
         'id_user', 'nama', 'no_handphone', 'role',
@@ -21,7 +21,7 @@ class User extends Authenticatable
     // Relasi ke model Transaksi
     public function transaksi()
     {
-        return $this->hasMany(Transaksi::class, 'id_user');
+        return $this->hasMany(Transaksi::class, 'id_transaksi');
     }
 
     public function bahan()

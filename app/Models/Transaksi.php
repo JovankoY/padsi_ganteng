@@ -11,23 +11,29 @@ class Transaksi extends Model
 
     protected $table = 'transaksi';
     protected $primaryKey = 'id_transaksi';
-    public $incrementing = false;
-    protected $keyType = 'string';
+
 
     protected $fillable = [
-        'id_transaksi',
         'total_harga',
         'tanggal_transaksi',
-        'id_menu',
+        'id_user',
+        'id_pelanggan'
+    ];
+    protected $casts = [
+        'tanggal_transaksi' => 'datetime',
     ];
 
 
-    public function menu()
+    public function user()
     {
-        return $this->belongsTo(Menu::class, 'id_menu', 'id'); // Foreign key disesuaikan
+        return $this->belongsTo(User::class, 'id_user'); // Foreign key disesuaikan
+    }
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan'); // Foreign key disesuaikan
     }
 
-    public function nota(){
-        return $this->hasMany(Nota::class, 'id_transaksi');
+    public function detailTransaksi(){
+        return $this->hasMany(DetailTransaksi::class, 'id_transaksi');
     }
 }

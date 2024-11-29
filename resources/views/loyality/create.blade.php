@@ -21,12 +21,12 @@
                 @csrf
 
                 <!-- ID Pelanggan -->
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label for="id_pelanggan" class="block text-gray-700">ID Pelanggan</label>
                     <input type="text" name="id_pelanggan" id="id_pelanggan" 
                            class="w-full px-4 py-2 border rounded-lg" 
                            value="{{ old('id_pelanggan') }}" required>
-                </div>
+                </div> --}}
 
                 <!-- Nama -->
                 <div class="mb-4">
@@ -41,10 +41,10 @@
                 </div>
 
                 <!-- Kode Referal -->
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label for="kode_referal" class="block text-gray-700">Kode Referal</label>
-                    <input type="text" name="kode_referal" id="kode_referal" class="w-full px-4 py-2 border rounded-lg" required>
-                </div>
+                    <input type="text" name="kode_referal" id="kode_referal" class="w-full px-4 py-2 border rounded-lg">
+                </div> --}}
 
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Simpan</button>
             </form>

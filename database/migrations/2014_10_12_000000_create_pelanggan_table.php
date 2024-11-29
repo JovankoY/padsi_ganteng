@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pelanggan', function (Blueprint $table) {
-            $table->string('id_pelanggan', 4)->primary();
+            $table->id('id_pelanggan');
             $table->string('nama', 30);
             $table->string('no_handphone', 12)->nullable();
-            $table->string('id_kode_ref', 36)->nullable();
+            $table->string('kode_ref')->nullable()->unique();
+            $table->unsignedBigInteger('id_status')->default(1);
             $table->timestamps(); // Menambahkan kolom created_at dan updated_at
 
-            $table->foreign('id_kode_ref')->references('id_kode_ref')->on('koderef')->onDelete('restrict');
+            $table->foreign('id_status')->references('id_status_koderef')->on('status_kode_ref')->onDelete('cascade');
         });
     }
 

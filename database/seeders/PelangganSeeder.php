@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class PelangganSeeder extends Seeder
 {
@@ -12,20 +14,25 @@ class PelangganSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ambil semua id_kode_ref dari tabel koderef
-        $kodeRefs = DB::table('koderef')->pluck('id_kode_ref')->toArray();
+        // Fetch all available statuses from status_kode_ref table
+        $statusIds = DB::table('status_kode_ref')->pluck('id_status_koderef')->toArray(); // Get all status IDs
 
-        // Jumlah pelanggan yang ingin dibuat
-        $jumlahPelanggan = count($kodeRefs);
+        // Example for generating customers
+        for ($i = 0; $i < 10; $i++) { // Example: Create 50 pelanggan
+            // Generate a random status ID from the list of available status IDs
+            $randomStatusId = $statusIds[array_rand($statusIds)]; // Select a random status ID
 
-        for ($i = 0; $i < $jumlahPelanggan; $i++) {
+            // Generate a random 5-character alphanumeric kode_ref
+            $kodeRef = strtoupper(Str::random(5)); // Generates a 5-character uppercase alphanumeric string
+
+            // Insert new pelanggan with random status and kode_ref
             DB::table('pelanggan')->insert([
-                'id_pelanggan' => str_pad($i + 1, 4, '0', STR_PAD_LEFT), // ID pelanggan 10 digit
-                'nama' => 'Pelanggan ' . ($i + 1), // Nama pelanggan
-                'no_handphone' => '08' . mt_rand(1000000000, 9999999999), // Nomor handphone acak
-                'id_kode_ref' => $kodeRefs[$i], // Ambil kode referensi secara berurutan
-                'created_at' => now(),
-                'updated_at' => now(),
+                'nama' => 'Pelanggan ' . ($i + 1),
+                'no_handphone' => '08' . mt_rand(1000000000, 9999999999), // Random phone number
+                'kode_ref' => $kodeRef, // Generated kode_ref
+                'id_status' => $randomStatusId, // Randomly selected status ID
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

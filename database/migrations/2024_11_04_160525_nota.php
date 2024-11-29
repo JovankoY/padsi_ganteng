@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nota', function (Blueprint $table) {
-            $table->string('id_transaksi', 10)->primary(); // Primary key
+            $table->id('id_nota', 10)->primary(); // Primary key
             $table->timestamp('tanggal_transaksi'); // Waktu transaksi
             $table->string('id_menu', 10); // ID menu
             $table->float('harga_menu'); // Harga per menu

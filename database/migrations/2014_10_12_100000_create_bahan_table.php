@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bahan', function (Blueprint $table) {
-            $table->string('id_bahan', 10)->primary();
-            $table->string('id_user', 10); // Disesuaikan dengan tabel user
+            $table->id('id_bahan'); // ID auto-increment tanpa panjang
+            $table->unsignedBigInteger('id_user'); // Foreign key ke tabel user
             $table->string('nama_barang', 20);
             $table->string('jenis_barang', 15);
             $table->integer('jumlah_barang');

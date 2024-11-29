@@ -25,12 +25,11 @@ class Menu extends Model
 
     protected $table = 'menu'; // Nama tabel di database
     protected $primaryKey = 'id_menu'; // Primary key
-    public $timestamps = true; // Atur timestamps jika digunakan
-    protected $fillable = ['id_menu', 'nama_menu', 'jenis_menu', 'harga']; // Kolom yang bisa diisi
+    protected $fillable = ['nama_menu', 'jenis_menu', 'harga']; // Kolom yang bisa diisi
 
     public function transaksi()
     {
-        return $this->hasMany(Transaksi::class, 'id_menu'); // Foreign key disesuaikan
+        return $this->belongsTo(Transaksi::class, 'id_menu'); // Foreign key disesuaikan
     }
     
 }

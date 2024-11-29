@@ -108,12 +108,14 @@ Route::prefix('loyality')->name('loyality.')->group(function() {
     Route::post('store', [PelangganController::class, 'store'])->name('store');
     Route::post('redeem-referal', [PelangganController::class, 'redeemReferal'])->name('redeemReferal');
 });
+// web.php
+Route::post('/redeem-referal', [PelangganController::class, 'redeemReferal'])->name('loyality.redeemReferal');
 
 
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
-Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+Route::post('/transaksi', [TransaksiController::class, 'store']);
 
 Route::get('/statement', [NotaController::class, 'index'])->name('statement.index');
 // Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');

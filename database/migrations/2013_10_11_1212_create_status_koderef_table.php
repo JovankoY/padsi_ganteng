@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->id();
+        Schema::create('status_kode_ref', function (Blueprint $table) {
+            $table->id('id_status_koderef');
+            $table->string('nama_status', 255); // Memperluas panjang 
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('status_kode_ref');
     }
 };

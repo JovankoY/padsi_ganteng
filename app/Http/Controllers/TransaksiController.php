@@ -2,50 +2,113 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Nota;
 use App\Models\Menu;
+use App\Models\Transaksi;
+use App\Models\DetailTransaksi;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class TransaksiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $notas = Nota::with('menu')->paginate(10);
-        return view('transactions.index', compact('notas'));
+        // Ambil parameter pencarian, limit, dan sort dari request
+        $search = $request->input('search', '');
+        $limit = $request->input('limit', 5); // Default limit ke 5
+        $sort = $request->input('sort', 'id_transaksi'); // Default sort by 'id'
+        $direction = $request->input('direction', 'asc'); // Default direction 'asc'
+
+        // Query detail transaksi pembelian dengan join ke bahan baku dan user
+        $transaksis = Transaksi::with(['user', 'detailTransaksi'])
+            ->whereHas('detailTransaksi', function ($query) use ($search) {
+                $query->whereHas('menu', function ($query) use ($search) {
+                    $query->where('nama_menu', 'like', "%$search%");
+                });
+            })->orWhereHas('user', function ($query) use ($search) {
+                $query->where('nama', 'like', "%$search%");
+            })
+            ->orderBy($sort, $direction) // Apply sorting based on user input
+            ->paginate($limit); // Apply pagination
+
+        // Jika request AJAX
+        // if ($request->ajax()) {
+        //     return response()->json([
+        //         'penjualans' => view('penjualan.partials.penjualans', compact('penjualans'))->render(),
+        //         'pagination' => $transaksis->links('pagination::tailwind')
+        //     ]);
+        // }
+
+        // Jika bukan AJAX
+        return view('transactions.index', compact('search', 'limit', 'sort', 'direction', 'transaksis'));
     }
 
     public function create()
     {
+        // Mengambil semua data menu untuk ditampilkan pada form transaksi
         $menus = Menu::all();
-        return view('transactions.create', compact('menus'));
+        $pelanggan = Pelanggan::all();
+        return view('transactions.create', compact('menus', 'pelanggan'));
     }
 
     public function store(Request $request)
     {
+        // Validasi input dari form
         $request->validate([
-            'id_transaksi' => 'required|unique:nota,id_transaksi',
-            'id_menu' => 'required|exists:menu,id_menu', 
-            'id_user' => 'required|exists:users,id_user',
-            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
-            'harga_menu' => 'required|numeric|min:0',
-            'jumlah_pesanan' => 'required|integer|min:1',
-            'tanggal_transaksi' => 'required|date',
+            'id_user' => 'required|exists:user,id_user', // ID user yang melakukan transaksi
+            'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan', // ID pelanggan
+            'tanggal' => 'required|date', // Tanggal transaksi
+            'menus' => 'required|array',
         ]);
 
-        $total_harga = $request->harga_menu * $request->jumlah_pesanan;
+        // Menghitung total harga dari semua menu yang dipilih
+        $totalBayar = 0;
+        $menuDipilih = $request->menus;
 
-        Nota::create([
-            'id_transaksi' => $request->id_transaksi,
-            'tanggal_transaksi' => $request->tanggal_transaksi,
-            'id_menu' => $request->id_menu,
+        foreach ($menuDipilih as $menu) {
+            $totalBayar += $menu['subtotal'];
+        }
+
+        $jumlahTransaksiPelanggan = Transaksi::where('id_pelanggan', $request->id_pelanggan)->count();
+
+        // Jika pelanggan sudah mencapai kelipatan 10 transaksi
+        if (($jumlahTransaksiPelanggan + 1) % 10 == 0) {
+            // Terapkan diskon 100% pada total harga
+            $totalBayar = 0;
+
+            // Generate kode referensi untuk pelanggan
+            $kodeReferensi = strtoupper(Str::random(5)); // Menghasilkan kode referensi acak
+
+            // Update kode_ref pada pelanggan
+            $pelanggan = Pelanggan::find($request->id_pelanggan);
+            $pelanggan->kode_ref = $kodeReferensi;
+            $pelanggan->save();
+        }
+
+        // Membuat transaksi
+        $transaksi = Transaksi::create([
             'id_user' => $request->id_user,
             'id_pelanggan' => $request->id_pelanggan,
-            'harga_menu' => $request->harga_menu,
-            'jumlah_pesanan' => $request->jumlah_pesanan,
-            'total_harga' => $total_harga,
+            'tanggal_transaksi' => $request['tanggal'],
+            'total_harga' => $totalBayar,
         ]);
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
+        // Menambahkan detail transaksi untuk setiap menu yang dipilih
+        foreach ($menuDipilih as $menu) {
+            DetailTransaksi::create([
+                'id_transaksi' => $transaksi->id_transaksi,
+                'id_menu' => (int) $menu['id_menu'],
+                'jumlah_menu' => $menu['jumlah'],
+                'total_harga_per_menu' => $menu['subtotal'],
+            ]);
+        }
+
+        // Redirect setelah sukses menyimpan transaksi
+        return response()->json([
+            'success' => true,
+            'message' => 'Transaksi penjualan berhasil disimpan',
+            'id_transaksi' => $transaksi->id_transaksi,
+            
+        ]);
     }
 }

@@ -14,7 +14,6 @@ class Bahan extends Model
     protected $table = 'bahan'; // Nama tabel di database
 
     protected $fillable = [
-        'id_bahan', 
         'id_user', 
         'nama_barang', 
         'jenis_barang', 
@@ -25,14 +24,7 @@ class Bahan extends Model
     use HasFactory;
 
     // Tentukan primary key yang digunakan
-    protected $primaryKey = 'id_bahan'; // Sesuaikan dengan kolom yang digunakan sebagai primary key
-
-    // Jika kolom primary key bukan auto increment, set juga:
-    public $incrementing = false; // Jika primary key menggunakan string seperti 'id_stok'
-
-    // Atur tipe data kolom primary key jika diperlukan
-    protected $keyType = 'string'; // Jika menggunakan string pada id_stok
-
+    protected $primaryKey = 'id_bahan'; // Sesuaikan dengan kolom yang 
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
