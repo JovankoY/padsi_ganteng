@@ -75,13 +75,14 @@ class TransaksiController extends Controller
         if (($jumlahTransaksiPelanggan + 1) % 10 == 0) {
             // Terapkan diskon 100% pada total harga
             $totalBayar = 0;
-
+    
             // Generate kode referensi untuk pelanggan
-            $kodeReferensi = strtoupper(Str::random(5)); // Menghasilkan kode referensi acak
-
-            // Update kode_ref pada pelanggan
+            $kodeRef = strtoupper(Str::random(5)); // Menghasilkan kode referensi acak
+    
+            // Update kode_ref dan id_status pada pelanggan
             $pelanggan = Pelanggan::find($request->id_pelanggan);
-            $pelanggan->kode_ref = $kodeReferensi;
+            $pelanggan->kode_ref = $kodeRef;
+            $pelanggan->id_status = 2; // Menandakan kode referal belum terpakai
             $pelanggan->save();
         }
 

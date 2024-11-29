@@ -90,12 +90,13 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <option value="">Masukkan Kode Referal</option>
                         @foreach ($pelanggan as $pelanggans)
-                        @if ($pelanggans->id_status == 2) <!-- Pastikan hanya menampilkan pelanggan dengan id_status 2 -->
-                        <option value="{{ $pelanggans->kode_ref }}" data-id="{{ $pelanggans->id_pelanggan }}"
-                            data-transaksi="{{ $pelanggans->transaksi_count }}">
-                            {{ $pelanggans->kode_ref }} <!-- Menampilkan hanya kode referal -->
-                        </option>
-                    @endif
+                            @if ($pelanggans->id_status == 2)
+                                <!-- Pastikan hanya menampilkan pelanggan dengan id_status 2 -->
+                                <option value="{{ $pelanggans->kode_ref }}" data-id="{{ $pelanggans->id_pelanggan }}"
+                                    data-transaksi="{{ $pelanggans->transaksi_count }}">
+                                    {{ $pelanggans->kode_ref }} <!-- Menampilkan hanya kode referal -->
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -200,14 +201,14 @@
                                         <td class="px-0 py-3">{{ $loop->iteration }}</td>
                                         <td class="px-0 py-3">{{ $pelanggan->nama }}</td>
                                         <td class="px-0 py-3">{{ $pelanggan->transaksi->count() }}</td>
-                                        </td>
                                         <td class="px-0 py-3">
                                             <button
                                                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                                                 onclick="pilihPelanggan(
-                                        {{ $pelanggan->id_pelanggan }},
-                                        '{{ $pelanggan->nama }}',
-                                    )">
+                                                    {{ $pelanggan->id_pelanggan }},
+                                                    '{{ $pelanggan->nama }}',
+                                                    {{ $pelanggan->transaksi->count() }}
+                                                )">
                                                 Pilih
                                             </button>
                                         </td>
@@ -409,14 +410,28 @@
             document.getElementById('modal').classList.add('hidden');
         }
 
-        function pilihPelanggan(idPelanggan, namaPelanggan, diskonMember) {
+        function pilihPelanggan(idPelanggan, namaPelanggan, transaksiCount) {
             document.getElementById('pelanggan').value = namaPelanggan; // Menampilkan nama pelanggan
-            document.getElementById('diskon_member').value = `Diskon: ${diskonMember * 100}%`;
             document.getElementById('id_pelanggan').value = idPelanggan; // Menampilkan nama pelanggan
-            document.getElementById('pelanggan-modal').classList.add('hidden'); // Menutup modal pelanggan
+            let kodeReferalDropdown = document.getElementById('customerName');
+            let redeemButton = document.getElementById('redeemButton');
+            let diskonMemberInput = document.getElementById('diskon_member');
+
+            if (transaksiCount % 10 === 0) {
+                // Jika transaksiCount adalah kelipatan 10, disable dropdown
+                kodeReferalDropdown.disabled = true;
+                redeemButton.disabled = true; // Jika ingin menonaktifkan tombol redeem juga
+                diskonMemberInput.value = 100;
+                alert(
+                    "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya.");
+            } else {
+                // Jika tidak, aktifkan dropdown
+                kodeReferalDropdown.disabled = false;
+                redeemButton.disabled = false;
+                diskonMemberInput.value = '';
+            }
 
             hitungTotal();
-
             document.getElementById('pelanggan-modal').classList.add('hidden');
         }
 
