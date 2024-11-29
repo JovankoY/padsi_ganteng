@@ -291,26 +291,33 @@
                 </table>
             </div>
 
-            <!-- Total dan Bayar -->
-            <div class="flex justify-between items-center mt-6">
-    <div>
+           <!-- Total dan Bayar -->
+<div class="flex justify-between items-start mt-6 space-x-4">
+    <div class="w-1/2">
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Subtotal Pembayaran</p>
         <input type="text" id="subtotal"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
             placeholder="Subtotal Pembayaran" readonly />
+
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Diskon Referal</p>
         <input type="text" id="diskon_member"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
             placeholder="Diskon Referal" readonly />
-        <p class="text-xl text-gray-700 px-4 py-2 font-bold">Total Pembayaran</p>
-        <div class="flex row-auto">
-            <p class="text-xl text-gray-700 px-4 py-2 font-bold">Rp</p>
-            <p class="text-2xl text-gray-700 w-full px-4 py-2 border border-black rounded-lg bg-gray-200 focus:outline-none cursor-default font-medium"
-                id="total-bayar">0,00</p>
-        </div>
-    </div>
-    <div class="flex flex-col space-y-6 ">
 
+            <p class="text-xl text-gray-700 px-4 py-2 font-bold">Total Pembayaran</p>
+<div class="flex items-center">
+    <!-- Kotak untuk "Rp" -->
+    <div class="flex items-center justify-center w-20 h-12 px-4 py-2 border border-black rounded-l-lg bg-gray-200 text-xl font-bold">
+        Rp
+    </div>
+    <!-- Kotak untuk total bayar -->
+    <p class="text-2xl text-gray-700 w-full h-12 px-4 py-2 border border-black rounded-r-lg bg-gray-200 focus:outline-none cursor-default font-medium"
+        id="total-bayar">0,00</p>
+</div>
+
+    </div>
+
+    <div class="w-1/2">
         <!-- Input untuk Nominal -->
         <div class="flex flex-col space-y-2">
             <label for="nominal_bayar" class="text-lg font-semibold">Nominal</label>
@@ -333,30 +340,32 @@
                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Kembalian" readonly />
         </div>
+        <!-- Input untuk Kembalian -->
+        <div class="flex flex-col space-y-2">
+            <label for="kembalian" class="text-lg font-semibold">Kembalian</label>
+            <input type="number" id="kembalian" name="kembalian"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Kembalian" readonly />
+        </div>
 
         <!-- Tombol Proses Bayar -->
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center justify-between mt-4">
             <button id="bayar-btn"
-                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700">
+                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 w-full">
                 Proses Bayar
             </button>
         </div>
-
     </div>
 </div>
 
-<!-- Tombol Kembali di bawah Total Pembayaran -->
-<div class="mt-6 flex justify-left">
-    <button onclick="window.history.back()" class="bg-gray-900 text-white px-6 py-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
-        Kembali
-    </button>
-</div>
-
-
+    
+    <!-- Tombol Back -->
+    <div class="mt-4 text-left">
+         <button onclick="history.back()"
+            class="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300">
+                Kembali
+          </button>
         </div>
-        
-        
-    </div>
     </div>
 
     <script>
@@ -599,7 +608,7 @@
         // Menangani klik tombol "Proses Bayar"
         document.querySelector('#bayar-btn').addEventListener('click', function() {
             const totalBayar = parseFloat(document.getElementById('total-bayar').innerText.replace('Rp ', '')
-                .replace(',', '').trim());
+                .replace('.', '').trim());
             const nominalBayar = parseFloat(document.getElementById('nominal_bayar').value);
 
             if (isNaN(nominalBayar) || nominalBayar <= 0) {
@@ -697,16 +706,13 @@
                                 text: 'Transaksi berhasil disimpan.',
                                 showCancelButton: true,
                                 confirmButtonText: 'OK',
-                                cancelButtonText: 'Print Nota',
+                                // cancelButtonText: 'Print Nota',
                                 reverseButtons: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // Redirect to the main page after confirmation
                                     window.location.href = '/transaksi';
-                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    // Redirect to the Print Nota page
-                                    window.location.href = `/nota/${data.id_transaksi}`;
-                                }
+                                } 
                             });
                         } else {
                             Swal.fire({
@@ -744,7 +750,7 @@
             document.getElementById('subtotal').value = `Rp ${subtotal.toLocaleString()}`;
             document.getElementById('total-bayar').textContent = `Rp ${totalBayar.toLocaleString()}`;
 
-            return {
+            return {                                                                                                    
                 subtotal,
                 diskon,
                 totalBayar
