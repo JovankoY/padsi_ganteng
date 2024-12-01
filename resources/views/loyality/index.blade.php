@@ -156,7 +156,7 @@
                     });
             }
 
-            // Load the initial data on page load
+            // Load the initial data on page loads
             fetchData();
         });
     </script>
