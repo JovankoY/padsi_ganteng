@@ -23,9 +23,9 @@ class DashboardController extends Controller
     {
         return view('transaktions.index');
     }
-    public function statement()
+    public function laporan()
     {
-        return view('statement.index');
+        return view('laporan.index');
     }
     public function loyality()
     {

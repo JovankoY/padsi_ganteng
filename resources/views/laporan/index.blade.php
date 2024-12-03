@@ -33,7 +33,6 @@
                                 <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
                                 <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
                                 <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
-                                <option value="100" {{ request('limit') == 100 ? 'selected' : '' }}>100</option>
                             </select>
                         </div>
                         <div>
@@ -51,41 +50,31 @@
                         </div>
                         <div>
                             <label for="id" class="block text-sm font-medium text-gray-700">Pilih User:</label>
-                            <select name="id_user" id="id"
+                            <select name="id" id="id"
                                 class="form-control border border-gray-300 rounded-lg px-4 py-2 shadow mr-2">
                                 <option value="">Tampilkan Semua</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id_user }}"
-                                        {{ request('id_user') == $user->id_user ? 'selected' : '' }}>
+                                        {{ request('id') == $user->id_user ? 'selected' : '' }}>
                                         {{ $user->nama }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        
                         <button type="submit"
-                            class="bg-blue-500 text-white px-4 py-2 ml-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+                            class="bg-gray-900 text-white px-4 py-2 ml-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
                             Filter
                         </button>
                     </form>
                 </div>
-                <div class="flex items-end -mb-6">
-                    <a href="{{ route('laporan.penjualan.pdf.all', [
-                            'start_date' => request('start_date', $startDate->format('Y-m-d')),
-                            'end_date' => request('end_date', $endDate->format('Y-m-d')),
-                            'id' => request('id_user')
-                        ]) }}" class="flex items-end bg-gray-900 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
-                        Print All Penjualan
-                    </a>
-                </div>
             </div>
 
             <!-- Tabel Laporan Penjualan -->
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg" id="laporan-penjualan">
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead>
-                        <tr class="bg-yellow-500 text-white">
-                            <th class="px-4 py-2 border-b text-left">Nomor Transaksi</th>
+                        <tr class="bg-gray-900 text-white">
+                            <th class="px-4 py-2 border-b text-left">ID Transaksi</th>
                             <th class="px-4 py-2 border-b text-left">Tanggal Transaksi</th>
                             <th class="px-4 py-2 border-b text-left">Total Harga</th>
                             <th class="px-4 py-2 border-b text-left">Nama User</th>
@@ -95,10 +84,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = ($laporanPenjualan->currentPage() - 1) * $laporanPenjualan->perPage() + 1; ?>
                         @foreach ($laporanPenjualan as $penjualan)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 border-b">{{ $no++ }}</td>
+                                <td class="px-4 py-2 border-b">{{ $penjualan->id_transaksi }}</td>
                                 <td class="px-4 py-2 border-b">{{ $penjualan->tanggal_transaksi }}</td>
                                 <td class="px-4 py-2 border-b">
                                     Rp{{ number_format($penjualan->total_harga, 2, ',', '.') }}</td>
@@ -122,6 +110,15 @@
                                             </svg>
                                             <span>Detail</span>
                                         </a>
+                                        <a href="{{ route('laporan.penjualan.pdf', $penjualan->id_transaksi) }}"
+                                            class="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" class="w-5 h-5 mr-2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 5H18M6 9H18M6 13H18M6 17H18M3 21H21V7H3V21Z" />
+                                            </svg>
+                                            <span>Cetak Nota</span>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -129,7 +126,6 @@
                     </tbody>
                 </table>
             </div>
-            <!-- //test -->
 
             <!-- Pagination -->
             <div class="mt-4">
@@ -137,16 +133,54 @@
             </div>
         </main>
     </div>
-
     <script>
         // Function to submit form on change of "limit"
         document.getElementById('limit').addEventListener('change', function() {
             document.getElementById('filter-form').submit();
         });
 
-        // Print PDF Functionality
-        document.getElementById('print-pdf').addEventListener('click', function () {
-            window.print('pagination::tailwind');
+        // Function to update the Laporan Penjualan based on the selected filters
+        function updateLaporanPenjualan(page = 1) {
+            const userId = $('#id').val(); // Get the user filter (id)
+            const limit = $('#limit').val(); // Get the selected limit
+            const startDate = $('#start_date').val(); // Get the start date
+            const endDate = $('#end_date').val(); // Get the end date
+            const idMember = $('#id_member').val(); // Get the id_member filter (if needed)
+
+            // Make an AJAX request to fetch filtered data
+            $.ajax({
+                url: '/laporan/penjualan?page=' + page, // Endpoint for fetching filtered data
+                method: 'GET',
+                data: {
+                    id: userId, // Send the user_id filter
+                    limit: limit, // Send the limit
+                    start_date: startDate, // Send the start date
+                    end_date: endDate, // Send the end date
+                    id_member: idMember, // Send the id_member filter (if exists)
+                },
+                success: function(response) {
+                    // Update the content with the response data (HTML and Pagination)
+                    $('#laporan-penjualan').html(response.html);
+                    $('#pagination').html(response.pagination);
+                },
+            });
+        }
+
+        // Event listener to update the Laporan Penjualan when filters are changed
+        $('#id, #limit, #start_date, #end_date, #id_member').on('change', function() {
+            updateLaporanPenjualan();
+        });
+
+        // Event listener to handle pagination
+        $(document).on('click', '.pagination a', function(e) {
+            e.preventDefault();
+            const page = $(this).attr('href').split('page=')[1];
+            updateLaporanPenjualan(page);
+        });
+
+        // Optional: Initial page load or when the page is first rendered, call update function
+        $(document).ready(function() {
+            updateLaporanPenjualan(); // Initial load with default filter values
         });
     </script>
 

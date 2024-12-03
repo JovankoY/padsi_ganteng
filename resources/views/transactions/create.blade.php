@@ -133,6 +133,13 @@
                 <div class="bg-white p-6 rounded-lg shadow-lg w-auto max-w-md mx-auto mt-10 overflow-y-auto">
                     <h2 class="text-xl font-semibold mb-4 text-center text-gray-800">Pilih Menu</h2>
 
+                    <!-- Search Input -->
+                    <div class="mb-4">
+                        <input type="text" id="searchMenu"
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            placeholder="Cari menu...">
+                    </div>
+
                     <!-- Table Container with Scroll -->
                     <div class="max-h-96 overflow-y-auto">
                         <table class="min-w-full table-auto text-gray-800 border-collapse">
@@ -144,13 +151,12 @@
                                     <th class="px-0 py-3 text-left">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="menuList">
                                 @foreach ($menus as $menu)
                                     <tr class="border-b hover:bg-gray-100">
                                         <td class="px-0 py-3">{{ $loop->iteration }}</td>
                                         <td class="px-0 py-3">{{ $menu->nama_menu }}</td>
-                                        <td class="px-0 py-3">Rp {{ number_format($menu->harga, 0, ',', '.') }}
-                                        </td>
+                                        <td class="px-0 py-3">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                                         <td class="px-0 py-3">
                                             <button
                                                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
@@ -180,6 +186,7 @@
                     </div>
                 </div>
             </div>
+
 
 
             <div id="pelanggan-modal"
@@ -344,6 +351,21 @@
     </div>
 
     <script>
+        // JavaScript for search functionality
+        document.getElementById('searchMenu').addEventListener('input', function() {
+            const searchQuery = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#menuList tr');
+
+            rows.forEach(row => {
+                const menuName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (menuName.includes(searchQuery)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
         $(document).ready(function() {
             // Initialize Select2
             $('#customerName').select2({
@@ -435,9 +457,10 @@
                 // Jika transaksiCount adalah kelipatan 10, disable dropdown
                 kodeReferalDropdown.disabled = true;
                 redeemButton.disabled = true; // Jika ingin menonaktifkan tombol redeem juga
-                diskonMemberInput.value = 100;
+                diskonMemberInput.value = 100 + "%";
                 alert(
-                    "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya.");
+                    "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya."
+                );
             } else {
                 // Jika tidak, aktifkan dropdown
                 kodeReferalDropdown.disabled = false;
@@ -587,6 +610,7 @@
             const tanggalTransaksi = document.getElementById('tanggal_transaksi').value;
             const idUser = 1; // Ambil ID pengguna yang terautentikasi
             const idPelanggan = document.getElementById('id_pelanggan').value; // Ambil ID pelanggan
+            const kode_ref = document.getElementById('customerName').value;
 
             if (!tanggalTransaksi) {
                 Swal.fire({
@@ -628,13 +652,14 @@
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                         },
-                        body: JSON.stringify({
-                            tanggal: tanggalTransaksi,
-                            menus: transaksiData,
-                            id_user: idUser,
-                            id_pelanggan: idPelanggan,
-                            totalBayar: totalBayar
-                        })
+                            body: JSON.stringify({
+                                tanggal: tanggalTransaksi,
+                                menus: transaksiData,
+                                id_user: idUser,
+                                id_pelanggan: idPelanggan,
+                                totalBayar: totalBayar,
+                                kode_ref: kode_ref
+                            })
                     })
                     .then(response => response.json())
                     .then(data => {
