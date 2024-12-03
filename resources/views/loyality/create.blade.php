@@ -31,13 +31,19 @@
                 <!-- Nama -->
                 <div class="mb-4">
                     <label for="nama" class="block text-gray-700">Nama</label>
-                    <input type="text" name="nama" id="nama" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="text" name="nama" id="nama" class="w-full px-4 py-2 border rounded-lg" value="{{ old('nama') }}" required>
+                    @error('nama')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- No Handphone -->
                 <div class="mb-4">
                     <label for="no_handphone" class="block text-gray-700">No Handphone</label>
-                    <input type="text" name="no_handphone" id="no_handphone" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="text" name="no_handphone" id="no_handphone" class="w-full px-4 py-2 border rounded-lg" value="{{ old('no_handphone') }}" required>
+                    @error('no_handphone')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Kode Referal -->

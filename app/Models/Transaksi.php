@@ -36,4 +36,17 @@ class Transaksi extends Model
     public function detailTransaksi(){
         return $this->hasMany(DetailTransaksi::class, 'id_transaksi');
     }
+
+    public function calculateTotalHarga()
+    {
+        $detailTransaksi = $this->detailTransaksi; // Ambil detail transaksi
+        $totalHarga = 0;
+
+        foreach ($detailTransaksi as $detail) {
+            $totalHarga += $detail->total_harga_per_menu;
+        }
+
+        $this->total_harga = $totalHarga;
+        $this->save();
+    }
 }

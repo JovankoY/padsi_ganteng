@@ -9,7 +9,8 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanController;
+use App\Models\Transaksi;
 
 // Menampilkan form login
 Route::get('login', [LoginController::class, 'tampilLogin'])->name('login');
@@ -41,8 +42,8 @@ Route::get('/loyality', function () {
     return view('loyality');
 });
 
-Route::get('/statement', function () {
-    return view('statement');
+Route::get('/laporan_penjualan', function () {
+    return view('laporan.index');
 });
 
 Route::get('user', function () {
@@ -68,25 +69,6 @@ Route::post('/user', [MenuController::class, 'store'])->name('user.store');
 Route::resource('user', UserController::class);
 Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
-
-
-
-// // Rute untuk halaman index bahan
-// Route::get('stock', [BahanController::class, 'index'])->name('stock.index');
-// Route::post('stock', [BahanController::class, 'store'])->name('stock.store');
-// // Rute untuk halaman create bahan
-// Route::get('stock/create', [BahanController::class, 'create'])->name('stock.create');
-
-// // Rute untuk halaman edit bahan
-// Route::get('stock/edit/{id?}', [BahanController::class, 'edit'])->name('stock.edit');  // Optional ID
-
-// // Rute untuk proses update bahan
-// Route::put('stock/{id}', [BahanController::class, 'update'])->name('stock.update');
-
-// // Rute untuk proses hapus bahan
-// Route::delete('stock/{id}', [BahanController::class, 'destroy'])->name('stock.destroy');
-
-// Rute untuk menampilkan daftar bahan
 Route::get('stock', [BahanController::class, 'index'])->name('stock.index');
 
 // Rute untuk menampilkan halaman form untuk menambah stok baru
@@ -116,8 +98,14 @@ Route::post('/redeem-referal', [PelangganController::class, 'redeemReferal'])->n
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
 Route::post('/transaksi', [TransaksiController::class, 'store']);
+Route::get('/nota/{id}', [TransaksiController::class, 'showNota']);
+Route::get('/nota/pdf/{id}', [NotaController::class, 'generatePdf']);
 
-Route::get('/statement', [NotaController::class, 'index'])->name('statement.index');
+
+Route::get('laporan_penjualan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan_penjualan/{id}/detail', [LaporanController::class, 'showDetailPenjualan'])->name('laporan.penjualan.detail');
+Route::get('/laporan_penjualan/{id}/pdf', [LaporanController::class, 'generatePDFJual'])->name('laporan.penjualan.pdf');
+
 // Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');

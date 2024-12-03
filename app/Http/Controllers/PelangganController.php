@@ -48,7 +48,7 @@ class PelangganController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'no_handphone' => 'required|string|max:20',
+            'no_handphone' => 'required|string|max:20|unique:pelanggan,no_handphone',
 
         ]);
 
