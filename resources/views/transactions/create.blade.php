@@ -142,7 +142,6 @@
                             placeholder="Cari menu...">
                     </div>
 
-
                     <!-- Table Container with Scroll -->
                     <div class="max-h-96 overflow-y-auto">
                         <table class="min-w-full table-auto text-gray-800 border-collapse">
@@ -155,10 +154,12 @@
                                 </tr>
                             </thead>
                             <tbody id="menuList">
+                            <tbody id="menuList">
                                 @foreach ($menus as $menu)
                                     <tr class="border-b hover:bg-gray-100">
                                         <td class="px-0 py-3">{{ $loop->iteration }}</td>
                                         <td class="px-0 py-3">{{ $menu->nama_menu }}</td>
+                                        <td class="px-0 py-3">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                                         <td class="px-0 py-3">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                                         <td class="px-0 py-3">
                                             <button
@@ -189,6 +190,7 @@
                     </div>
                 </div>
             </div>
+
 
 
 
@@ -368,6 +370,21 @@
             });
         });
 
+        // JavaScript for search functionality
+        document.getElementById('searchMenu').addEventListener('input', function() {
+            const searchQuery = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#menuList tr');
+
+            rows.forEach(row => {
+                const menuName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (menuName.includes(searchQuery)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
         $(document).ready(function() {
             // Initialize Select2
             $('#customerName').select2({
@@ -460,7 +477,10 @@
                 kodeReferalDropdown.disabled = true;
                 redeemButton.disabled = true; // Jika ingin menonaktifkan tombol redeem juga
                 diskonMemberInput.value = 100 + "%";
+                diskonMemberInput.value = 100 + "%";
                 alert(
+                    "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya."
+                );
                     "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya."
                 );
             } else {
@@ -613,8 +633,7 @@
             const idUser = document.getElementById('id_user').value; // Ambil ID pengguna yang terautentikasi
             const idPelanggan = document.getElementById('id_pelanggan').value; // Ambil ID pelanggan
             const kode_ref = document.getElementById('customerName').value;
-            const diskonInput = document.getElementById('diskon_member').value; // "10%" atau "0%" atau "100%"
-            const diskonAngka = parseFloat(diskonInput.replace('%', '').trim()) || 0;
+
             if (!tanggalTransaksi) {
                 Swal.fire({
                     icon: 'error',
@@ -661,8 +680,7 @@
                                 id_user: idUser,
                                 id_pelanggan: idPelanggan,
                                 totalBayar: totalBayar,
-                                kode_ref: kode_ref,
-                                diskon: diskonAngka
+                                kode_ref: kode_ref
                             })
                     })
                     .then(response => response.json())

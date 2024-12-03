@@ -5,124 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota Transaksi</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap');
-
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
+            font-family: Arial, sans-serif;
+            margin: 20px;
             padding: 0;
-            background: #f5f5f5;
-            color: #333;
             box-sizing: border-box;
         }
-
         .container {
-            width: 90%;
+            width: 100%;
             max-width: 800px;
-            margin: 40px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
         }
-
         .header {
-            background: linear-gradient(135deg, #ffd700, #ffa500);
-            color: white;
             text-align: center;
-            padding: 20px 0;
+            margin-bottom: 20px;
         }
-
         .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
             margin: 0;
         }
-
         .header p {
             margin: 5px 0;
             font-size: 14px;
-        }
-
-        .details {
-            padding: 20px;
-        }
-
-        .details h3 {
-            font-family: 'Playfair Display', serif;
-            color: #ffa500;
-            margin-bottom: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background: #fafafa;
-            color: #333;
-            font-weight: 500;
-        }
-
-        td {
             color: #555;
         }
-
-        .total {
-            padding: 20px;
-            background: #fafafa;
-            border-top: 1px solid #ddd;
+        .details {
+            margin-bottom: 20px;
         }
-
+        .details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .details th, .details td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .details th {
+            background-color: #f4f4f4;
+        }
+        .total {
+            text-align: right;
+            margin-top: 20px;
+        }
         .total p {
             font-size: 16px;
-            margin: 8px 0;
+            font-weight: bold;
+            margin: 5px 0;
         }
-
-        .total p strong {
-            font-size: 18px;
-            color: #ffa500;
-        }
-
         .footer {
             text-align: center;
-            padding: 15px;
-            background: #333;
-            color: white;
             font-size: 12px;
-        }
-
-        .back-button {
-            display: inline-block;
-            text-align: center;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background: #ffa500;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
-            transition: transform 0.2s, background 0.3s ease;
-            box-shadow: 0 5px 10px rgba(255, 165, 0, 0.3);
-        }
-
-        .back-button:hover {
-            background: #e69500;
-            transform: scale(1.05);
+            color: #aaa;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
         <div class="header">
             <h1>NOTA TRANSAKSI</h1>
             <p>No. Transaksi: {{ $transaksi->id_transaksi }}</p>
@@ -130,7 +73,6 @@
             <p>Pelanggan: {{ $transaksi->pelanggan->nama }}</p>
         </div>
 
-        <!-- DETAIL TRANSAKSI -->
         <div class="details">
             <h3>Detail Transaksi</h3>
             <table>
@@ -155,33 +97,25 @@
             </table>
         </div>
 
-        <!-- TOTAL -->
         <div class="total">
-    <p>Subtotal: Rp. {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
-    @if($transaksi->diskon > 0)
-        <p>Diskon: {{ $transaksi->diskon }}%</p>
-        @php
-            // Hitung total setelah diskon
-            $totalSetelahDiskon = $transaksi->total_harga - ($transaksi->total_harga * $transaksi->diskon / 100);
-        @endphp
-    @else
-        <p>Diskon: 0%</p>
-        @php
-            $totalSetelahDiskon = $transaksi->total_harga;
-        @endphp
-    @endif
-    <p><strong>Total Bayar: Rp. {{ number_format($totalSetelahDiskon, 0, ',', '.') }}</strong></p>
-</div>
-
-
-        <!-- FOOTER -->
-        <div class="footer">
-            <p>Terima kasih telah datang😁😁</p>
-            <p>&copy; 2024 Hotplate Jago - Anda Kenyang Kami Senang</p>
+            <p>Subtotal: Rp. {{ number_format($subtotal, 0, ',', '.') }}</p>
+            @if($diskon > 0)
+                <p>Diskon: {{ $diskon * 100 }}%</p>
+            @elseif($diskon == 0)
+                <p>Diskon: 0%</p>
+            @elseif($diskon == 1)
+                <p>Diskon: 100%</p>
+            @endif
+            <p><strong>Total Bayar: Rp. {{ number_format($totalBayar, 0, ',', '.') }}</strong></p>
         </div>
 
-        <!-- BUTTON -->
-        <a href="javascript:history.back()" class="back-button">Kembali</a>
+        <div class="footer">
+            <p>Terima kasih telah berbelanja di toko kami!</p>
+            <p>&copy; 2024 Toko XYZ</p>
+        </div>
+
+          <!-- Tombol Kembali -->
+          <a href="javascript:history.back()" class="back-button">Kembali</a>
     </div>
 
     @if(request()->has('pdf'))
@@ -189,16 +123,5 @@
             window.print();
         </script>
     @endif
-    <script>
-    function goBackAndRefresh() {
-        // Kembali ke halaman sebelumnya
-        history.back();
-        
-        // Tunggu sedikit sebelum melakukan refresh
-        setTimeout(() => {
-            location.reload();
-        }, 50); // Delay 50ms untuk memastikan halaman sebelumnya telah dimuat
-    }
-</script>
 </body>
 </html>

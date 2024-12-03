@@ -9,6 +9,7 @@ use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiController extends Controller
 {
@@ -76,8 +77,10 @@ class TransaksiController extends Controller
             // Terapkan diskon 100% pada total harga
             $totalBayar = 0;
 
+
             // Generate kode referensi untuk pelanggan
             $kodeRef = strtoupper(Str::random(5)); // Menghasilkan kode referensi acak
+
 
             // Update kode_ref dan id_status pada pelanggan
             $pelanggan = Pelanggan::find($request->id_pelanggan);
@@ -93,7 +96,6 @@ class TransaksiController extends Controller
             'tanggal_transaksi' => $request['tanggal'],
             'total_harga' => $totalBayar,
             'kode_ref' => $request['kode_ref'],
-            'diskon' => $request['diskon'],
         ]);
 
         // Menambahkan detail transaksi untuk setiap menu yang dipilih
@@ -111,6 +113,7 @@ class TransaksiController extends Controller
             'success' => true,
             'message' => 'Transaksi penjualan berhasil disimpan',
             'id_transaksi' => $transaksi->id_transaksi,
+
 
         ]);
     }
@@ -175,6 +178,4 @@ class TransaksiController extends Controller
             'totalBayar' => $totalBayar,
         ]);
     }
-
-    
 }

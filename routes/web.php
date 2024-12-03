@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Models\Transaksi;
+use App\Http\Controllers\LaporanController;
+use App\Models\Transaksi;
 
 // Menampilkan form login
 Route::get('login', [LoginController::class, 'tampilLogin'])->name('login');
@@ -42,6 +44,8 @@ Route::get('/loyality', function () {
     return view('loyality');
 });
 
+Route::get('/laporan_penjualan', function () {
+    return view('laporan.index');
 Route::get('/laporan_penjualan', function () {
     return view('laporan.index');
 });
@@ -105,7 +109,6 @@ Route::get('/nota/pdf/{id}', [NotaController::class, 'generatePdf']);
 Route::get('laporan_penjualan', [LaporanController::class, 'index'])->name('laporan.index');
 Route::get('/laporan_penjualan/{id}/detail', [LaporanController::class, 'showDetailPenjualan'])->name('laporan.penjualan.detail');
 Route::get('/laporan_penjualan/{id}/pdf', [LaporanController::class, 'generatePDFJual'])->name('laporan.penjualan.pdf');
-Route::get('/laporan_penjualan/pdf', [LaporanController::class, 'printAllDataPenjualan'])->name('laporan.penjualan.pdf.all');
 
 // Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
