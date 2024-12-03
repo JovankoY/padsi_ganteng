@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\PDF;
 
+
 class LaporanController extends Controller
 {
     public function index(Request $request)
@@ -63,3 +64,5 @@ class LaporanController extends Controller
         return $pdf->stream('laporan_penjualan.pdf');
     }
 }
+
+
