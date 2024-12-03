@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota Transaksi</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
         /* Global Styles */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: #fff5e1;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,154 +21,144 @@
         }
 
         .container {
-            max-width: 900px;
-            margin: 30px auto;
             background: #ffffff;
-            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            width: 750px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            padding: 30px 40px;
         }
 
-        h1,
-        h2 {
-            text-align: center;
-            color: #444;
-        }
-
-        h1 {
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        h2 {
-            font-size: 18px;
-            color: #777;
-            margin-top: 0;
-        }
-
-        /* Header */
+        /* Header Section */
         .header {
+            background: #f59e0b;
+            color: #f5f5f5;
             text-align: center;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding: 20px;
         }
 
-        .header-logo img {
-            max-width: 150px;
+        .header img {
+            width: 70px;
             margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin: 10px 0;
         }
 
         .header p {
+            font-size: 14px;
+            font-weight: 300;
             margin: 0;
-            font-size: 16px;
-            color: #555;
         }
 
-        /* Table */
+        /* Transaction Info Section */
+        .transaction-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #fff3cd;
+        }
+
+        .transaction-info div {
+            font-size: 14px;
+        }
+
+        .transaction-info span {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        /* Table Section */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+            margin: 0;
         }
 
         th,
         td {
-            border: 1px solid #e0e0e0;
-            padding: 15px 20px;
+            padding: 15px;
             text-align: left;
         }
 
         th {
-            background-color: #4caf50;
-            color: #fff;
-            font-size: 16px;
+            background: #f59e0b;
+            color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
+            font-size: 14px;
         }
 
         td {
-            font-size: 16px;
-            color: #555;
+            background: #fff8e6;
+            font-size: 14px;
+            border-bottom: 1px solid #ffeb3b;
         }
 
-        .table-img {
-            max-width: 100px;
-            max-height: 100px;
-            object-fit: contain;
-        }
-
-        /* Totals */
+        /* Totals Section */
         .totals {
-            margin-top: 30px;
+            padding: 20px;
+            background: #fff3cd;
         }
 
         .totals div {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        .totals div span {
-            font-size: 16px;
-            color: #333;
+        .totals .total {
+            font-size: 18px;
+            font-weight: 600;
+            color: #020617;
         }
 
-        .totals div span.value {
-            font-weight: bold;
-        }
-
-        /* Footer */
+        /* Footer Section */
         .footer {
-            margin-top: 30px;
             text-align: center;
+            padding: 20px;
+            background: #f59e0b;
+            color: #f5f5f5;
             font-size: 14px;
-            color: #777;
-        }
-
-        .footer p {
-            margin: 5px 0;
         }
 
         /* Buttons */
         .button-group {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
+            padding: 20px;
+            background: #ffffff;
         }
 
-        .print-button,
-        .back-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            text-decoration: none;
             cursor: pointer;
             text-align: center;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
         }
 
-        .print-button {
-            background-color: #4caf50;
+        .button.print {
+            background: #3b82f6;
         }
 
-        .print-button:hover {
-            background-color: #45a049;
+        .button.print:hover {
+            background: #0369a1;
         }
 
-        .back-button {
-            background-color: #e74c3c;
+        .button.back {
+            background: #d50000;
         }
 
-        .back-button:hover {
-            background-color: #c0392b;
+        .button.back:hover {
+            background: #b71c1c;
         }
 
         @media print {
@@ -177,35 +168,35 @@
 
             body {
                 background-color: white;
-                /* White background for printing */
             }
 
             .container {
                 box-shadow: none;
-                /* Remove shadow for print */
-                padding: 20px;
+                padding: 0;
             }
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-        <!-- Header Section -->
+        <!-- Header -->
         <div class="header">
-            <div class="header-logo">
-                <!-- Replace with your logo -->
-                <img src="{{ asset('logo.png') }}" alt="Logo Restoran">
-            </div>
-            <h1>Restoran Kami</h1>
-            <h2>Alamat: Jl. Sehat Selalu No.123, Jakarta | Telp: 021-12345678</h2>
+            <img src="{{ asset('images/hotplatelogo.png') }}" alt="Logo Restoran" style="width: 300px; height: auto;">
+            <h1>Nota Transaksi</h1>
+            <p>Jl. Selokan Mataram, Yogyakarta | Telp: 021-12345678</p>
         </div>
 
-        <!-- Transaction Details -->
-        <h2>Nota No:</strong> {{ $laporanPenjualan->id_transaksi}}</h2>
-        <p><strong>Tanggal:</strong> {{ $laporanPenjualan->tanggal_transaksi->format('d-m-Y H:i') }}</p>
-        <p><strong>Pelanggan:</strong> {{ $laporanPenjualan->pelanggan->nama_pelanggan ?? 'Tidak Ada' }}</p>
+        <!-- Transaction Info -->
+        <div class="transaction-info">
+            <div>
+                <span>No. Transaksi:</span> {{ $laporanPenjualan->id_transaksi }}
+                <span>Tanggal:</span> {{ $laporanPenjualan->tanggal_transaksi->format('d-m-Y H:i') }}
+            </div>
+            <div>
+                <span>Pelanggan:</span> {{ $laporanPenjualan->pelanggan->nama ?? 'Tidak Ada' }}
+            </div>
+        </div>
 
         <!-- Table -->
         <table>
@@ -218,46 +209,47 @@
                     <th>Total</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+            <tbody>
+                @php
+                $grandTotal = 0; // Variabel untuk menghitung total keseluruhan
+                @endphp
+
                 @foreach ($laporanPenjualan->detailTransaksi as $key => $detail)
-                    <tr>
-                        <td class="py-4">{{ $key + 1 }}</td>
-                        <td class="py-4">
-                            <!-- Pastikan gambar dapat diakses di PDF dengan menggunakan public_path() -->
-                            <img src="{{ asset('storage/' . $detail->menu->gambar_menu) }}" class="table-img rounded"
-                                alt="Product Image">
-                            <p>{{ $detail->menu->nama_menu }}</p>
-                        </td>
-                        <td class="py-4">{{ $detail->jumlah_menu }}</td>
-                        <td class="py-4">Rp {{ number_format($detail->menu->harga, 0, ',', '.') }}</td>
-                        <td class="py-4 text-right">Rp {{ number_format($detail->total_harga_per_menu, 2, ',', '.') }}
-                        </td>
-                    </tr>
+                @php
+                $totalHargaPerMenu = $detail->menu->harga * $detail->jumlah_menu;
+                $grandTotal += $totalHargaPerMenu; // Tambahkan total harga per menu ke grand total
+                @endphp
+
+                <tr>
+                    <td>{{ $key + 1 }}</td>
+                    <td>{{ $detail->menu->nama_menu }}</td>
+                    <td>{{ $detail->jumlah_menu }}</td>
+                    <td>Rp {{ number_format($detail->menu->harga, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($totalHargaPerMenu, 0, ',', '.') }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <!-- Totals Section -->
+        <!-- Totals -->
         <div class="totals">
             <div>
                 <span>Total Bayar:</span>
-                <span class="value">Rp {{ number_format($laporanPenjualan->total_harga, 0, ',', '.') }}</span>
+                <span class="total">Rp {{ number_format($grandTotal, 0, ',', '.') }}</span>
             </div>
         </div>
 
         <!-- Buttons -->
         <div class="button-group">
-            <a href="{{ route('laporan.index') }}" class="back-button">Kembali</a>
-            {{-- <button class="print-button" onclick="window.print()">Cetak Nota</button> --}}
+            <a href="{{ route('laporan.index') }}" class="button back">Kembali</a>
+            <button class="button print" onclick="window.print()">Cetak Nota</button>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            <p>Terima kasih telah berkunjung ke Restoran Kami.</p>
-            <p>Semoga Anda menikmati hidangan kami. Sampai jumpa lagi!</p>
+            Terima kasih telah berkunjung ke Restoran Kami. Sampai jumpa lagi!
         </div>
     </div>
-
 </body>
 
 </html>

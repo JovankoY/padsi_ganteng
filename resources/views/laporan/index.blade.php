@@ -62,7 +62,7 @@
                             </select>
                         </div>
                         <button type="submit"
-                            class="bg-gray-900 text-white px-4 py-2 ml-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+                            class="bg-blue-500 text-white px-4 py-2 ml-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
                             Filter
                         </button>
                     </form>
@@ -73,7 +73,7 @@
             <div class="overflow-x-auto bg-white shadow-md rounded-lg">
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead>
-                        <tr class="bg-gray-900 text-white">
+                        <tr class="bg-yellow-500 text-white">
                             <th class="px-4 py-2 border-b text-left">ID Transaksi</th>
                             <th class="px-4 py-2 border-b text-left">Tanggal Transaksi</th>
                             <th class="px-4 py-2 border-b text-left">Total Harga</th>

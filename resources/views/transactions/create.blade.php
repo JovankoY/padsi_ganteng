@@ -140,6 +140,7 @@
                             placeholder="Cari menu...">
                     </div>
 
+
                     <!-- Table Container with Scroll -->
                     <div class="max-h-96 overflow-y-auto">
                         <table class="min-w-full table-auto text-gray-800 border-collapse">
@@ -287,33 +288,26 @@
                 </table>
             </div>
 
-           <!-- Total dan Bayar -->
-<div class="flex justify-between items-start mt-6 space-x-4">
-    <div class="w-1/2">
+            <!-- Total dan Bayar -->
+            <div class="flex justify-between items-center mt-6">
+    <div>
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Subtotal Pembayaran</p>
         <input type="text" id="subtotal"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
             placeholder="Subtotal Pembayaran" readonly />
-
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Diskon Referal</p>
         <input type="text" id="diskon_member"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
             placeholder="Diskon Referal" readonly />
-
-            <p class="text-xl text-gray-700 px-4 py-2 font-bold">Total Pembayaran</p>
-<div class="flex items-center">
-    <!-- Kotak untuk "Rp" -->
-    <div class="flex items-center justify-center w-20 h-12 px-4 py-2 border border-black rounded-l-lg bg-gray-200 text-xl font-bold">
-        Rp
+        <p class="text-xl text-gray-700 px-4 py-2 font-bold">Total Pembayaran</p>
+        <div class="flex row-auto">
+            <p class="text-xl text-gray-700 px-4 py-2 font-bold">Rp</p>
+            <p class="text-2xl text-gray-700 w-full px-4 py-2 border border-black rounded-lg bg-gray-200 focus:outline-none cursor-default font-medium"
+                id="total-bayar">0,00</p>
+        </div>
     </div>
-    <!-- Kotak untuk total bayar -->
-    <p class="text-2xl text-gray-700 w-full h-12 px-4 py-2 border border-black rounded-r-lg bg-gray-200 focus:outline-none cursor-default font-medium"
-        id="total-bayar">0,00</p>
-</div>
+    <div class="flex flex-col space-y-6 ">
 
-    </div>
-
-    <div class="w-1/2">
         <!-- Input untuk Nominal -->
         <div class="flex flex-col space-y-2">
             <label for="nominal_bayar" class="text-lg font-semibold">Nominal</label>
@@ -329,25 +323,36 @@
                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Kembalian" readonly />
         </div>
+        <!-- Input untuk Kembalian -->
+        <div class="flex flex-col space-y-2">
+            <label for="kembalian" class="text-lg font-semibold">Kembalian</label>
+            <input type="number" id="kembalian" name="kembalian"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Kembalian" readonly />
+        </div>
 
         <!-- Tombol Proses Bayar -->
-        <div class="flex items-center justify-between mt-4">
+        <div class="flex items-center space-x-4">
             <button id="bayar-btn"
-                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 w-full">
+                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700">
                 Proses Bayar
             </button>
         </div>
+
     </div>
 </div>
 
-    
-    <!-- Tombol Back -->
-    <div class="mt-4 text-left">
-         <button onclick="history.back()"
-            class="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300">
-                Kembali
-          </button>
+<!-- Tombol Kembali di bawah Total Pembayaran -->
+<div class="mt-6 flex justify-left">
+    <button onclick="window.history.back()" class="bg-gray-900 text-white px-6 py-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+        Kembali
+    </button>
+</div>
+
+
         </div>
+        
+    </div>
     </div>
 
     <script>
@@ -763,7 +768,10 @@
                 });
             });
         });
+        
     </script>
+    
 </body>
+
 
 </html>
