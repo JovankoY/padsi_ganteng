@@ -17,6 +17,7 @@ return new class extends Migration
             $table->dateTime('tanggal_transaksi')->useCurrent(); // Tanggal transaksi
             $table->unsignedBigInteger('id_user'); // Disesuaikan dengan tabel user
             $table->unsignedBigInteger('id_pelanggan'); // Disesuaikan dengan tabel pelanggan
+            $table->float('diskon', 10, 2)->default(0); // Diskon untuk transaksi
             // Foreign keys
             $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade'); // Relasi ke tabel user
             $table->foreign('id_pelanggan')->references('id_pelanggan')->on('pelanggan')->onDelete('cascade'); // Relasi ke tabel pelanggan

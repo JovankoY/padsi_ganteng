@@ -67,10 +67,15 @@
                         </button>
                     </form>
                 </div>
-                <!-- Add Print PDF Button -->
-                <button id="print-pdf" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition duration-200">
-                    Cetak Halaman PDF
-                </button>
+                <div class="flex items-end -mb-6">
+                    <a href="{{ route('laporan.penjualan.pdf.all', [
+                            'start_date' => request('start_date', $startDate->format('Y-m-d')),
+                            'end_date' => request('end_date', $endDate->format('Y-m-d')),
+                            'id' => request('id')
+                        ]) }}" class="flex items-end bg-gray-900 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+                        Print All Penjualan
+                    </a>
+                </div>
             </div>
 
             <!-- Tabel Laporan Penjualan -->

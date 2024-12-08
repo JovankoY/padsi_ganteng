@@ -17,7 +17,8 @@ class Transaksi extends Model
         'total_harga',
         'tanggal_transaksi',
         'id_user',
-        'id_pelanggan'
+        'id_pelanggan',
+        'diskon',
     ];
     protected $casts = [
         'tanggal_transaksi' => 'datetime',

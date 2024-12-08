@@ -105,6 +105,7 @@ Route::get('/nota/pdf/{id}', [NotaController::class, 'generatePdf']);
 Route::get('laporan_penjualan', [LaporanController::class, 'index'])->name('laporan.index');
 Route::get('/laporan_penjualan/{id}/detail', [LaporanController::class, 'showDetailPenjualan'])->name('laporan.penjualan.detail');
 Route::get('/laporan_penjualan/{id}/pdf', [LaporanController::class, 'generatePDFJual'])->name('laporan.penjualan.pdf');
+Route::get('/laporan_penjualan/pdf', [LaporanController::class, 'printAllDataPenjualan'])->name('laporan.penjualan.pdf.all');
 
 // Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
