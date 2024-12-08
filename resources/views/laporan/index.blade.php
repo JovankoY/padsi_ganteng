@@ -67,10 +67,14 @@
                         </button>
                     </form>
                 </div>
+                <!-- Add Print PDF Button -->
+                <button id="print-pdf" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition duration-200">
+                    Cetak Halaman PDF
+                </button>
             </div>
 
             <!-- Tabel Laporan Penjualan -->
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg" id="laporan-penjualan">
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead>
                         <tr class="bg-yellow-500 text-white">
@@ -110,15 +114,6 @@
                                             </svg>
                                             <span>Detail</span>
                                         </a>
-                                        <a href="{{ route('laporan.penjualan.pdf', $penjualan->id_transaksi) }}"
-                                            class="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" class="w-5 h-5 mr-2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 5H18M6 9H18M6 13H18M6 17H18M3 21H21V7H3V21Z" />
-                                            </svg>
-                                            <span>Cetak Nota</span>
-                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -133,54 +128,16 @@
             </div>
         </main>
     </div>
+
     <script>
         // Function to submit form on change of "limit"
         document.getElementById('limit').addEventListener('change', function() {
             document.getElementById('filter-form').submit();
         });
 
-        // Function to update the Laporan Penjualan based on the selected filters
-        function updateLaporanPenjualan(page = 1) {
-            const userId = $('#id').val(); // Get the user filter (id)
-            const limit = $('#limit').val(); // Get the selected limit
-            const startDate = $('#start_date').val(); // Get the start date
-            const endDate = $('#end_date').val(); // Get the end date
-            const idMember = $('#id_member').val(); // Get the id_member filter (if needed)
-
-            // Make an AJAX request to fetch filtered data
-            $.ajax({
-                url: '/laporan/penjualan?page=' + page, // Endpoint for fetching filtered data
-                method: 'GET',
-                data: {
-                    id: userId, // Send the user_id filter
-                    limit: limit, // Send the limit
-                    start_date: startDate, // Send the start date
-                    end_date: endDate, // Send the end date
-                    id_member: idMember, // Send the id_member filter (if exists)
-                },
-                success: function(response) {
-                    // Update the content with the response data (HTML and Pagination)
-                    $('#laporan-penjualan').html(response.html);
-                    $('#pagination').html(response.pagination);
-                },
-            });
-        }
-
-        // Event listener to update the Laporan Penjualan when filters are changed
-        $('#id, #limit, #start_date, #end_date, #id_member').on('change', function() {
-            updateLaporanPenjualan();
-        });
-
-        // Event listener to handle pagination
-        $(document).on('click', '.pagination a', function(e) {
-            e.preventDefault();
-            const page = $(this).attr('href').split('page=')[1];
-            updateLaporanPenjualan(page);
-        });
-
-        // Optional: Initial page load or when the page is first rendered, call update function
-        $(document).ready(function() {
-            updateLaporanPenjualan(); // Initial load with default filter values
+        // Print PDF Functionality
+        document.getElementById('print-pdf').addEventListener('click', function () {
+            window.print();
         });
     </script>
 
