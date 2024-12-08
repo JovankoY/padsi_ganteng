@@ -603,10 +603,11 @@
             }));
 
             const tanggalTransaksi = document.getElementById('tanggal_transaksi').value;
-            const idUser = 1; // Ambil ID pengguna yang terautentikasi
+            const idUser = Auth::user()->id_user; // Ambil ID pengguna yang terautentikasi
             const idPelanggan = document.getElementById('id_pelanggan').value; // Ambil ID pelanggan
             const kode_ref = document.getElementById('customerName').value;
-
+            const diskonInput = document.getElementById('diskon_member').value; // "10%" atau "0%" atau "100%"
+            const diskonAngka = parseFloat(diskonInput.replace('%', '').trim()) || 0;
             if (!tanggalTransaksi) {
                 Swal.fire({
                     icon: 'error',
@@ -653,7 +654,8 @@
                                 id_user: idUser,
                                 id_pelanggan: idPelanggan,
                                 totalBayar: totalBayar,
-                                kode_ref: kode_ref
+                                kode_ref: kode_ref,
+                                diskon: diskonAngka
                             })
                     })
                     .then(response => response.json())

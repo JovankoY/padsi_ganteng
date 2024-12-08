@@ -53,8 +53,7 @@ class TransaksiController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validasi input dari form
+    {        // Validasi input dari form
         $request->validate([
             'id_user' => 'required|exists:user,id_user', // ID user yang melakukan transaksi
             'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan', // ID pelanggan
@@ -94,6 +93,7 @@ class TransaksiController extends Controller
             'tanggal_transaksi' => $request['tanggal'],
             'total_harga' => $totalBayar,
             'kode_ref' => $request['kode_ref'],
+            'diskon' => $request['diskon'],
         ]);
 
         // Menambahkan detail transaksi untuk setiap menu yang dipilih
