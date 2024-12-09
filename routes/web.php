@@ -11,8 +11,6 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Models\Transaksi;
-use App\Http\Controllers\LaporanController;
-use App\Models\Transaksi;
 
 // Menampilkan form login
 Route::get('login', [LoginController::class, 'tampilLogin'])->name('login');
