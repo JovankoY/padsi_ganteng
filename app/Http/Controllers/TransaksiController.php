@@ -9,7 +9,6 @@ use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiController extends Controller
 {
