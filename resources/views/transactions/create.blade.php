@@ -24,7 +24,7 @@
     <!-- Main Content -->
     <div class="flex-1 p-8">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold">Tambah Transaksi</h1>
+            <h1 class="text-2xl font-bold">Tambah Penjualan</h1>
             <p id="currentTime" class="text-gray-600"></p>
         </div>
         <!-- Error umum -->
@@ -38,17 +38,17 @@
             </div>
         @endif
 
-                <!-- Form Content -->
-            <div class="bg-white p-8 rounded-lg shadow-lg">
-                <div class="grid grid-cols-1 gap-5">
-                    <!-- Tanggal -->
-                    <div>
-                        <label for="tanggal_transaksi" class="font-semibold block text-gray-700">Tanggal</label>
-                        <input type="date" id="tanggal_transaksi" class="w-full px-4 py-2 border rounded-lg" />
-                        @error('tanggal_transaksi')
-                            <span class="text-sm text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
+        <!-- Form Content -->
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <div class="grid grid-cols-3 gap-5">
+                <!-- Tanggal -->
+                <div>
+                    <label for="tanggal_transaksi" class="font-semibold block text-gray-700">Tanggal</label>
+                    <input type="date" id="tanggal_transaksi" class="w-full px-4 py-2 border rounded-lg" />
+                    @error('tanggal_transaksi')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
 
                 <!-- Pegawai -->
                 <div>
@@ -72,7 +72,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="mt-10">
                 <!-- Pilihan -->
@@ -292,8 +291,9 @@
             </div>
 
             <!-- Total dan Bayar -->
-            <div class="flex justify-between items-center mt-6">
-    <div>
+<div class="flex justify-between items-center mt-6 space-x-4">
+    <!-- Bagian Total -->
+    <div class="w-1/2">
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Subtotal Pembayaran</p>
         <input type="text" id="subtotal"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
@@ -309,8 +309,9 @@
                 id="total-bayar">0,00</p>
         </div>
     </div>
-    <div class="flex flex-col space-y-6 ">
 
+    <!-- Bagian Input Bayar -->
+    <div class="flex flex-col w-1/2 space-y-6">
         <!-- Input untuk Nominal -->
         <div class="flex flex-col space-y-2">
             <label for="nominal_bayar" class="text-lg font-semibold">Nominal</label>
@@ -328,15 +329,15 @@
         </div>
 
         <!-- Tombol Proses Bayar -->
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center">
             <button id="bayar-btn"
-                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700">
+                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 w-full">
                 Proses Bayar
             </button>
         </div>
-
     </div>
 </div>
+
 
 <!-- Tombol Kembali di bawah Total Pembayaran -->
 <div class="mt-6 flex justify-left">
@@ -573,7 +574,7 @@
         // Menangani klik tombol "Proses Bayar"
         document.querySelector('#bayar-btn').addEventListener('click', function() {
             const totalBayar = parseFloat(document.getElementById('total-bayar').innerText.replace('Rp ', '')
-                .replace('.', '').trim());
+                .replace(',', '').trim());
             const nominalBayar = parseFloat(document.getElementById('nominal_bayar').value);
 
             if (isNaN(nominalBayar) || nominalBayar <= 0) {
@@ -673,13 +674,16 @@
                                 text: 'Transaksi berhasil disimpan.',
                                 showCancelButton: true,
                                 confirmButtonText: 'OK',
-                                // cancelButtonText: 'Print Nota',
+                                cancelButtonText: 'Print Nota',
                                 reverseButtons: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // Redirect to the main page after confirmation
                                     window.location.href = '/transaksi';
-                                } 
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    // Redirect to the Print Nota page
+                                    window.location.href = `/nota/${data.id_transaksi}`;
+                                }
                             });
                         } else {
                             Swal.fire({
@@ -717,7 +721,7 @@
             document.getElementById('subtotal').value = `Rp ${subtotal.toLocaleString()}`;
             document.getElementById('total-bayar').textContent = `Rp ${totalBayar.toLocaleString()}`;
 
-            return {                                                                                                    
+            return {
                 subtotal,
                 diskon,
                 totalBayar
