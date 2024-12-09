@@ -44,8 +44,8 @@ Route::get('/loyality', function () {
     return view('loyality');
 });
 
-Route::get('/laporan_penjualan', function () {
-    return view('laporan.index');
+// Route::get('/laporan_penjualan', function () {
+//     return view('laporan.index');
 Route::get('/laporan_penjualan', function () {
     return view('laporan.index');
 });
