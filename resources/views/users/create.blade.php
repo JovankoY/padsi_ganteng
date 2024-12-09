@@ -16,10 +16,10 @@
         
         <form action="{{ route('user.store') }}" method="POST">
             @csrf
-            <div class="mb-4">
+            <!-- <div class="mb-4">
                 <label for="id_user" class="block text-gray-600">ID User</label>
                 <input type="text" id="id_user" name="id_user" class="w-full px-4 py-2 border rounded" required>
-            </div>
+            </div> -->
             <div class="mb-4">
                 <label for="nama" class="block text-gray-600">Nama</label>
                 <input type="text" id="nama" name="nama" class="w-full px-4 py-2 border rounded" required>

@@ -13,7 +13,7 @@
         }
 
         h2 {
-            color: #343a40;
+            color: #FF7A00; /* Warna oranye */
             text-align: center;
             margin-bottom: 20px;
         }
@@ -22,6 +22,7 @@
             text-align: center;
             margin-bottom: -10px;
             font-size: 14px;
+            color: #555;
         }
 
         table {
@@ -35,7 +36,7 @@
         }
 
         th {
-            background-color: #343a40;
+            background-color: #FF7A00; /* Warna oranye */
             color: #fff;
             padding: 12px;
             text-align: left;
@@ -53,11 +54,11 @@
         }
 
         tbody tr:nth-child(odd) {
-            background-color: #f8f9fa;
+            background-color: #FFF5E6; /* Warna krem muda */
         }
 
         tfoot tr {
-            background-color: #343a40;
+            background-color: #FF7A00; /* Warna oranye */
             color: #fff;
         }
 
