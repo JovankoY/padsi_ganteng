@@ -50,22 +50,25 @@
                         @enderror
                     </div>
 
-                    <!-- Pegawai -->
+                <!-- Pegawai -->
+                <div>
+                    <label for="pegawai" class="font-semibold block text-gray-700">Pegawai</label>
+                    <!-- Input untuk menampilkan nama pegawai -->
+                    <input type="text" id="pegawai"
+                           class="w-full px-4 py-2 font-semibold border rounded-lg bg-white focus:outline-none cursor-default"
+                           value="{{ Auth::user()->nama }}" placeholder="Nama pegawai" readonly />
+                    
+                    <!-- Input tersembunyi untuk menyimpan id_user -->
+                    <input type="hidden" name="id_user" id="id_user" value="{{ Auth::user()->id_user }}" />
+                </div>
+                
+                <div>
+                    <p class="text-md
+                     text-gray-700 font-semibold">Pelanggan</p>
                     <div>
-                        <label for="pegawai" class="font-semibold block text-gray-700">Pegawai</label>
-                        <input type="text" id="pegawai"
-                            class="w-full px-4 py-2 font-semibold border rounded-lg bg-white focus:outline-none cursor-default"
-                            value="{{ Auth::user()->nama }}" placeholder="Nama pegawai" readonly />
-                    </div>
-
-                    <!-- Pelanggan -->
-                    <div>
-                        <label for="pelanggan" class="text-md text-gray-700 font-semibold">Pelanggan</label>
-                        <div>
-                            <input type="text" id="pelanggan"
-                                class="w-full font-semibold px-4 py-2 border rounded-lg bg-white focus:outline-none cursor-default"
-                                placeholder="Nama pelanggan" readonly />
-                        </div>
+                        <input type="text" id="pelanggan"
+                            class="w-full font-semibold px-4 py-2 border rounded-lg bg-white focus:outline-none cursor-default"
+                            placeholder="Nama pelanggan" readonly />
                     </div>
                 </div>
             </div>
@@ -613,7 +616,7 @@
             }));
 
             const tanggalTransaksi = document.getElementById('tanggal_transaksi').value;
-            const idUser = Auth::user()->id_user; // Ambil ID pengguna yang terautentikasi
+            const idUser = document.getElementById('id_user').value; // Ambil ID pengguna yang terautentikasi
             const idPelanggan = document.getElementById('id_pelanggan').value; // Ambil ID pelanggan
             const kode_ref = document.getElementById('customerName').value;
             const diskonInput = document.getElementById('diskon_member').value; // "10%" atau "0%" atau "100%"

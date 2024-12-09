@@ -33,6 +33,7 @@
                                 <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
                                 <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
                                 <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ request('limit') == 100 ? 'selected' : '' }}>100</option>
                             </select>
                         </div>
                         <div>
@@ -50,17 +51,18 @@
                         </div>
                         <div>
                             <label for="id" class="block text-sm font-medium text-gray-700">Pilih User:</label>
-                            <select name="id" id="id"
+                            <select name="id_user" id="id"
                                 class="form-control border border-gray-300 rounded-lg px-4 py-2 shadow mr-2">
                                 <option value="">Tampilkan Semua</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id_user }}"
-                                        {{ request('id') == $user->id_user ? 'selected' : '' }}>
+                                        {{ request('id_user') == $user->id_user ? 'selected' : '' }}>
                                         {{ $user->nama }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
+                        
                         <button type="submit"
                             class="bg-blue-500 text-white px-4 py-2 ml-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
                             Filter
@@ -71,7 +73,7 @@
                     <a href="{{ route('laporan.penjualan.pdf.all', [
                             'start_date' => request('start_date', $startDate->format('Y-m-d')),
                             'end_date' => request('end_date', $endDate->format('Y-m-d')),
-                            'id' => request('id')
+                            'id' => request('id_user')
                         ]) }}" class="flex items-end bg-gray-900 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
                         Print All Penjualan
                     </a>
@@ -83,7 +85,7 @@
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead>
                         <tr class="bg-yellow-500 text-white">
-                            <th class="px-4 py-2 border-b text-left">ID Transaksi</th>
+                            <th class="px-4 py-2 border-b text-left">Nomor Transaksi</th>
                             <th class="px-4 py-2 border-b text-left">Tanggal Transaksi</th>
                             <th class="px-4 py-2 border-b text-left">Total Harga</th>
                             <th class="px-4 py-2 border-b text-left">Nama User</th>
@@ -93,9 +95,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $no = ($laporanPenjualan->currentPage() - 1) * $laporanPenjualan->perPage() + 1; ?>
                         @foreach ($laporanPenjualan as $penjualan)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 border-b">{{ $penjualan->id_transaksi }}</td>
+                                <td class="px-4 py-2 border-b">{{ $no++ }}</td>
                                 <td class="px-4 py-2 border-b">{{ $penjualan->tanggal_transaksi }}</td>
                                 <td class="px-4 py-2 border-b">
                                     Rp{{ number_format($penjualan->total_harga, 2, ',', '.') }}</td>
@@ -142,7 +145,7 @@
 
         // Print PDF Functionality
         document.getElementById('print-pdf').addEventListener('click', function () {
-            window.print();
+            window.print('pagination::tailwind');
         });
     </script>
 

@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         // Validasi input
         $request->validate([
-            'id_user' => 'required|unique:user,id_user',
+            // 'id_user' => 'required|unique:user,id_user',
             'nama' => 'required',
             'no_handphone' => 'required',
             'role' => 'required',
