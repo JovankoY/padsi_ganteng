@@ -81,7 +81,7 @@
             </div>
 
             <!-- Tabel Laporan Penjualan -->
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg" id="laporan-penjualan">
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead>
                         <tr class="bg-yellow-500 text-white">
@@ -122,6 +122,15 @@
                                             </svg>
                                             <span>Detail</span>
                                         </a>
+                                        <a href="{{ route('laporan.penjualan.pdf', $penjualan->id_transaksi) }}"
+                                            class="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" class="w-5 h-5 mr-2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 5H18M6 9H18M6 13H18M6 17H18M3 21H21V7H3V21Z" />
+                                            </svg>
+                                            <span>Cetak Nota</span>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -129,14 +138,13 @@
                     </tbody>
                 </table>
             </div>
-<!-- trdf -->
+
             <!-- Pagination -->
             <div class="mt-4">
                 {{ $laporanPenjualan->links() }}
             </div>
         </main>
     </div>
-
     <script>
         // Function to submit form on change of "limit"
         document.getElementById('limit').addEventListener('change', function() {

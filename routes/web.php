@@ -42,6 +42,8 @@ Route::get('/loyality', function () {
     return view('loyality');
 });
 
+// Route::get('/laporan_penjualan', function () {
+//     return view('laporan.index');
 Route::get('/laporan_penjualan', function () {
     return view('laporan.index');
 });
@@ -98,15 +100,9 @@ Route::post('/redeem-referal', [PelangganController::class, 'redeemReferal'])->n
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
 Route::post('/transaksi', [TransaksiController::class, 'store']);
-Route::get('/nota/{id}', [TransaksiController::class, 'showNota']);
-Route::get('/nota/pdf/{id}', [NotaController::class, 'generatePdf']);
 
 
-Route::get('laporan_penjualan', [LaporanController::class, 'index'])->name('laporan.index');
-Route::get('/laporan_penjualan/{id}/detail', [LaporanController::class, 'showDetailPenjualan'])->name('laporan.penjualan.detail');
-Route::get('/laporan_penjualan/{id}/pdf', [LaporanController::class, 'generatePDFJual'])->name('laporan.penjualan.pdf');
-Route::get('/laporan_penjualan/pdf', [LaporanController::class, 'printAllDataPenjualan'])->name('laporan.penjualan.pdf.all');
-
+Route::get('/statement', [NotaController::class, 'index'])->name('statement.index');
 // Route::get('/loyality', [PelangganController::class, 'index'])->name('loyality.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
