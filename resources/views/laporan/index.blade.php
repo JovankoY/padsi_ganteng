@@ -129,7 +129,7 @@
                     </tbody>
                 </table>
             </div>
-
+<!-- trdf -->
             <!-- Pagination -->
             <div class="mt-4">
                 {{ $laporanPenjualan->links() }}
