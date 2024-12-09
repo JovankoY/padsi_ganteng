@@ -50,22 +50,25 @@
                         @enderror
                     </div>
 
-                    <!-- Pegawai -->
+                <!-- Pegawai -->
+                <div>
+                    <label for="pegawai" class="font-semibold block text-gray-700">Pegawai</label>
+                    <!-- Input untuk menampilkan nama pegawai -->
+                    <input type="text" id="pegawai"
+                           class="w-full px-4 py-2 font-semibold border rounded-lg bg-white focus:outline-none cursor-default"
+                           value="{{ Auth::user()->nama }}" placeholder="Nama pegawai" readonly />
+                    
+                    <!-- Input tersembunyi untuk menyimpan id_user -->
+                    <input type="hidden" name="id_user" id="id_user" value="{{ Auth::user()->id_user }}" />
+                </div>
+                
+                <div>
+                    <p class="text-md
+                     text-gray-700 font-semibold">Pelanggan</p>
                     <div>
-                        <label for="pegawai" class="font-semibold block text-gray-700">Pegawai</label>
-                        <input type="text" id="pegawai"
-                            class="w-full px-4 py-2 font-semibold border rounded-lg bg-white focus:outline-none cursor-default"
-                            value="{{ Auth::user()->nama }}" placeholder="Nama pegawai" readonly />
-                    </div>
-
-                    <!-- Pelanggan -->
-                    <div>
-                        <label for="pelanggan" class="text-md text-gray-700 font-semibold">Pelanggan</label>
-                        <div>
-                            <input type="text" id="pelanggan"
-                                class="w-full font-semibold px-4 py-2 border rounded-lg bg-white focus:outline-none cursor-default"
-                                placeholder="Nama pelanggan" readonly />
-                        </div>
+                        <input type="text" id="pelanggan"
+                            class="w-full font-semibold px-4 py-2 border rounded-lg bg-white focus:outline-none cursor-default"
+                            placeholder="Nama pelanggan" readonly />
                     </div>
                 </div>
             </div>
@@ -153,12 +156,10 @@
                                 </tr>
                             </thead>
                             <tbody id="menuList">
-                            <tbody id="menuList">
                                 @foreach ($menus as $menu)
                                     <tr class="border-b hover:bg-gray-100">
                                         <td class="px-0 py-3">{{ $loop->iteration }}</td>
                                         <td class="px-0 py-3">{{ $menu->nama_menu }}</td>
-                                        <td class="px-0 py-3">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                                         <td class="px-0 py-3">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                                         <td class="px-0 py-3">
                                             <button
@@ -189,7 +190,6 @@
                     </div>
                 </div>
             </div>
-
 
 
 
@@ -291,33 +291,26 @@
                 </table>
             </div>
 
-           <!-- Total dan Bayar -->
-<div class="flex justify-between items-start mt-6 space-x-4">
-    <div class="w-1/2">
+            <!-- Total dan Bayar -->
+            <div class="flex justify-between items-center mt-6">
+    <div>
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Subtotal Pembayaran</p>
         <input type="text" id="subtotal"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
             placeholder="Subtotal Pembayaran" readonly />
-
         <p class="text-xl text-gray-700 px-4 py-2 font-bold">Diskon Referal</p>
         <input type="text" id="diskon_member"
             class="w-full px-4 py-2 border rounded-lg bg-gray-200 focus:outline-none cursor-default"
             placeholder="Diskon Referal" readonly />
-
-            <p class="text-xl text-gray-700 px-4 py-2 font-bold">Total Pembayaran</p>
-<div class="flex items-center">
-    <!-- Kotak untuk "Rp" -->
-    <div class="flex items-center justify-center w-20 h-12 px-4 py-2 border border-black rounded-l-lg bg-gray-200 text-xl font-bold">
-        Rp
+        <p class="text-xl text-gray-700 px-4 py-2 font-bold">Total Pembayaran</p>
+        <div class="flex row-auto">
+            <p class="text-xl text-gray-700 px-4 py-2 font-bold">Rp</p>
+            <p class="text-2xl text-gray-700 w-full px-4 py-2 border border-black rounded-lg bg-gray-200 focus:outline-none cursor-default font-medium"
+                id="total-bayar">0,00</p>
+        </div>
     </div>
-    <!-- Kotak untuk total bayar -->
-    <p class="text-2xl text-gray-700 w-full h-12 px-4 py-2 border border-black rounded-r-lg bg-gray-200 focus:outline-none cursor-default font-medium"
-        id="total-bayar">0,00</p>
-</div>
+    <div class="flex flex-col space-y-6 ">
 
-    </div>
-
-    <div class="w-1/2">
         <!-- Input untuk Nominal -->
         <div class="flex flex-col space-y-2">
             <label for="nominal_bayar" class="text-lg font-semibold">Nominal</label>
@@ -333,57 +326,32 @@
                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Kembalian" readonly />
         </div>
-        <!-- Input untuk Kembalian -->
-        <div class="flex flex-col space-y-2">
-            <label for="kembalian" class="text-lg font-semibold">Kembalian</label>
-            <input type="number" id="kembalian" name="kembalian"
-                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Kembalian" readonly />
-        </div>
-        <!-- Input untuk Kembalian -->
-        <div class="flex flex-col space-y-2">
-            <label for="kembalian" class="text-lg font-semibold">Kembalian</label>
-            <input type="number" id="kembalian" name="kembalian"
-                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Kembalian" readonly />
-        </div>
 
         <!-- Tombol Proses Bayar -->
-        <div class="flex items-center justify-between mt-4">
+        <div class="flex items-center space-x-4">
             <button id="bayar-btn"
-                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 w-full">
+                class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700">
                 Proses Bayar
             </button>
         </div>
+
     </div>
 </div>
 
-    
-    <!-- Tombol Back -->
-    <div class="mt-4 text-left">
-         <button onclick="history.back()"
-            class="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300">
-                Kembali
-          </button>
+<!-- Tombol Kembali di bawah Total Pembayaran -->
+<div class="mt-6 flex justify-left">
+    <button onclick="window.history.back()" class="bg-gray-900 text-white px-6 py-2 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+        Kembali
+    </button>
+</div>
+
+
         </div>
+        
+    </div>
     </div>
 
     <script>
-        // JavaScript for search functionality
-        document.getElementById('searchMenu').addEventListener('input', function() {
-            const searchQuery = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#menuList tr');
-
-            rows.forEach(row => {
-                const menuName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                if (menuName.includes(searchQuery)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-
         // JavaScript for search functionality
         document.getElementById('searchMenu').addEventListener('input', function() {
             const searchQuery = this.value.toLowerCase();
@@ -491,10 +459,7 @@
                 kodeReferalDropdown.disabled = true;
                 redeemButton.disabled = true; // Jika ingin menonaktifkan tombol redeem juga
                 diskonMemberInput.value = 100 + "%";
-                diskonMemberInput.value = 100 + "%";
                 alert(
-                    "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya."
-                );
                     "Pelanggan ini tidak dapat memilih kode referal karena sudah mencapai 10 transaksi atau kelipatannya."
                 );
             } else {
@@ -647,7 +612,8 @@
             const idUser = document.getElementById('id_user').value; // Ambil ID pengguna yang terautentikasi
             const idPelanggan = document.getElementById('id_pelanggan').value; // Ambil ID pelanggan
             const kode_ref = document.getElementById('customerName').value;
-
+            const diskonInput = document.getElementById('diskon_member').value; // "10%" atau "0%" atau "100%"
+            const diskonAngka = parseFloat(diskonInput.replace('%', '').trim()) || 0;
             if (!tanggalTransaksi) {
                 Swal.fire({
                     icon: 'error',
@@ -694,7 +660,8 @@
                                 id_user: idUser,
                                 id_pelanggan: idPelanggan,
                                 totalBayar: totalBayar,
-                                kode_ref: kode_ref
+                                kode_ref: kode_ref,
+                                diskon: diskonAngka
                             })
                     })
                     .then(response => response.json())
@@ -800,12 +767,9 @@
             });
         });
         
-        
     </script>
     
-    
 </body>
-
 
 
 </html>

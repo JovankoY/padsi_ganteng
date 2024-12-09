@@ -80,7 +80,6 @@ class TransaksiController extends Controller
             // Generate kode referensi untuk pelanggan
             $kodeRef = strtoupper(Str::random(5)); // Menghasilkan kode referensi acak
 
-
             // Update kode_ref dan id_status pada pelanggan
             $pelanggan = Pelanggan::find($request->id_pelanggan);
             $pelanggan->kode_ref = $kodeRef;
@@ -95,6 +94,7 @@ class TransaksiController extends Controller
             'tanggal_transaksi' => $request['tanggal'],
             'total_harga' => $totalBayar,
             'kode_ref' => $request['kode_ref'],
+            'diskon' => $request['diskon'],
         ]);
 
         // Menambahkan detail transaksi untuk setiap menu yang dipilih
@@ -112,7 +112,6 @@ class TransaksiController extends Controller
             'success' => true,
             'message' => 'Transaksi penjualan berhasil disimpan',
             'id_transaksi' => $transaksi->id_transaksi,
-
 
         ]);
     }
@@ -177,6 +176,4 @@ class TransaksiController extends Controller
             'totalBayar' => $totalBayar,
         ]);
     }
-
-    
 }

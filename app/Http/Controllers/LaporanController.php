@@ -57,7 +57,6 @@ class LaporanController extends Controller
 
     public function generatePDFjual($id)
     {
-    {
         // Ambil data laporan penjualan dengan ID tertentu
         $laporanPenjualan = Transaksi::with(['user', 'detailTransaksi.menu', 'pelanggan'])->findOrFail($id);
 

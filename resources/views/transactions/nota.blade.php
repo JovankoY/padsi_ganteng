@@ -157,14 +157,22 @@
 
         <!-- TOTAL -->
         <div class="total">
-            <p>Subtotal: Rp. {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
-            @if($diskon > 0)
-                <p>Diskon: {{ $diskon * 100 }}%</p>
-            @else
-                <p>Diskon: 0%</p>
-            @endif
-            <p><strong>Total Bayar: Rp. {{ number_format($totalBayar, 0, ',', '.') }}</strong></p>
-        </div>
+    <p>Subtotal: Rp. {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
+    @if($transaksi->diskon > 0)
+        <p>Diskon: {{ $transaksi->diskon }}%</p>
+        @php
+            // Hitung total setelah diskon
+            $totalSetelahDiskon = $transaksi->total_harga - ($transaksi->total_harga * $transaksi->diskon / 100);
+        @endphp
+    @else
+        <p>Diskon: 0%</p>
+        @php
+            $totalSetelahDiskon = $transaksi->total_harga;
+        @endphp
+    @endif
+    <p><strong>Total Bayar: Rp. {{ number_format($totalSetelahDiskon, 0, ',', '.') }}</strong></p>
+</div>
+
 
         <!-- FOOTER -->
         <div class="footer">
@@ -181,5 +189,16 @@
             window.print();
         </script>
     @endif
+    <script>
+    function goBackAndRefresh() {
+        // Kembali ke halaman sebelumnya
+        history.back();
+        
+        // Tunggu sedikit sebelum melakukan refresh
+        setTimeout(() => {
+            location.reload();
+        }, 50); // Delay 50ms untuk memastikan halaman sebelumnya telah dimuat
+    }
+</script>
 </body>
 </html>
